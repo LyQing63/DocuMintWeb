@@ -8,9 +8,8 @@ import {useImmer} from "use-immer";
 import {useRouter} from "next/navigation";
 import Link from "next/link";
 import {OpenAPI, Service} from "@/api";
-import {User} from "@/api/models/User";
+import {User} from "@/api/index";
 import {useToast} from "@/components/tailwind/ui/use-toast";
-import {useEffect} from "react";
 
 
 const initialLoginParams: User = {
@@ -21,8 +20,7 @@ const initialLoginParams: User = {
     updateTime: '',
     userAccount: '',
     userAvatar: '',
-    userName: '',
-    userRole: '',
+    userName: '',    userRole: '',
     userPassword: '',
 };
 export function LoginForm() {
@@ -53,7 +51,6 @@ export function LoginForm() {
         });
     }
 
-
     const token = localStorage.getItem('token');
     if (token) {
         toast({
@@ -61,7 +58,6 @@ export function LoginForm() {
         });
         router.push('/editor');
     }
-
 
   return (
     <Card className="w-full max-w-sm">

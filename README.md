@@ -1,6 +1,6 @@
 <p align="center">
     <a href="" target="_blank">
-      <img src="https://s1.ax1x.com/2023/07/02/pCDR0W4.png" width="280" />
+      <img src="https://yjxx.oss-cn-nanjing.aliyuncs.com/img/202405251023101.png" width="280" />
     </a>
 </p>
 

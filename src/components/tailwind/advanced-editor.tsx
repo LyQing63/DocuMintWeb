@@ -24,6 +24,7 @@ import GenerativeMenuSwitch from "./generative/generative-menu-switch";
 import { uploadFn } from "./image-upload";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
+import {Service} from "@/api";
 
 const extensions = [...defaultExtensions, slashCommand];
 
@@ -31,7 +32,6 @@ const TailwindAdvancedEditor = () => {
   const [initialContent, setInitialContent] = useState<null | JSONContent>(null);
   const [saveStatus, setSaveStatus] = useState("Saved");
   const [charsCount, setCharsCount] = useState();
-
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
@@ -43,6 +43,9 @@ const TailwindAdvancedEditor = () => {
     window.localStorage.setItem("html-content", editor.getHTML());
     window.localStorage.setItem("novel-content", JSON.stringify(json));
     window.localStorage.setItem("markdown", editor.storage.markdown.getMarkdown());
+    const page = JSON.parse(window.localStorage.getItem("page"));
+    page.content = JSON.stringify(json);
+    Service.saveUsingPost(page);
     setSaveStatus("Saved");
   }, 500);
 

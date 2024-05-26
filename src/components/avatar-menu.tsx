@@ -1,4 +1,4 @@
-import {CircleUser, Monitor, Moon, SunDim} from "lucide-react";
+import {LifeBuoy, LogOut, Settings} from "lucide-react";
 import {useTheme} from "next-themes";
 import {Button} from "./tailwind/ui/button";
 import React from "react";
@@ -13,31 +13,13 @@ import {
 import {Service} from "@/api";
 import {useRouter} from "next/navigation";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/tailwind/ui/avatar";
-import {cookies} from "next/headers";
 import {useToast} from "@/components/tailwind/ui/use-toast";
-import {
-  Cloud,
-  CreditCard,
-  Github,
-  Keyboard,
-  LifeBuoy,
-  LogOut,
-  Mail,
-  MessageSquare,
-  Plus,
-  PlusCircle,
-  Settings,
-  User,
-  UserPlus,
-  Users,
-} from "lucide-react"
 
 export default function AvatarMenu({ user }) {
   // const { font: currentFont, setFont } = useContext(AppContext);
   const { theme: currentTheme, setTheme } = useTheme();
   const router = useRouter();
   const {toast} = useToast();
-
 
   const logout = ()=> {
     const res = Service.logoutUsingPost();
@@ -62,7 +44,7 @@ export default function AvatarMenu({ user }) {
         <DropdownMenuTrigger asChild>
           <Button variant="secondary" size="icon" className="rounded-full">
             <Avatar>
-              <AvatarImage src={user.avatar} alt="@shadcn" />
+              <AvatarImage src={user.userAvatar} alt="@shadcn" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <span className="sr-only">Toggle user menu</span>
@@ -70,7 +52,7 @@ export default function AvatarMenu({ user }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuLabel>
-            <span>{user.name}</span>
+            <span>{user.userName}</span>
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem>

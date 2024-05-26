@@ -5,10 +5,11 @@ import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import Providers from "./providers";
 import {Toaster} from "@/components/tailwind/ui/toaster";
+import {Head} from "next/document";
 
-const title = "Novel - Notion-style WYSIWYG editor with AI-powered autocompletions";
+const title = "DocuMint：智能编辑，精雕细琢";
 const description =
-    "Novel is a Notion-style WYSIWYG editor with AI-powered autocompletions. Built with Tiptap, OpenAI, and Vercel AI SDK.";
+    "智能编辑新时代，DocuMint为你引路";
 
 export const metadata: Metadata = {
   title,
@@ -35,7 +36,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <html lang="en" suppressHydrationWarning>
       <body>
       <Providers>{children}</Providers>
-      <Toaster />
+      <Toaster/>
       </body>
       </html>
   );

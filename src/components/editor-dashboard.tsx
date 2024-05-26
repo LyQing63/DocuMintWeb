@@ -13,6 +13,8 @@ import AvatarMenu from "@/components/avatar-menu";
 import TailwindAdvancedEditor from "@/components/tailwind/advanced-editor";
 import {Label} from "@/components/tailwind/ui/label";
 import { Card } from "./tailwind/ui/card"
+import { Sidebar } from "./siderbar"
+import {useState} from "react";
 
 interface Props {
     defaultLayout: number[] | undefined
@@ -25,7 +27,6 @@ export function EditorDashboard({
                          user,
                          navCollapsedSize = 20,
                      }: Props) {
-
     // @ts-ignore
     return (
         <TooltipProvider delayDuration={0}>
@@ -45,7 +46,7 @@ export function EditorDashboard({
                     minSize={15}
                     maxSize={20}
                     className={cn(
-                        "min-w-[50px] transition-all duration-300 ease-in-out h-full"
+                        "min-w-[100px] transition-all duration-300 ease-in-out h-full"
                     )}
                 >
                     <div className="flex max-w-screen-lg items-center gap-2 px-4 py-2">
@@ -56,51 +57,12 @@ export function EditorDashboard({
                         <Menu className="ml-auto"/>
                     </div>
                     <Separator/>
-                    <Nav
-                        links={[
-                            {
-                                title: "Inbox",
-                                label: "128",
-                                icon: Inbox,
-                                variant: "default",
-                            },
-                            {
-                                title: "Drafts",
-                                label: "9",
-                                icon: File,
-                                variant: "ghost",
-                            },
-                            {
-                                title: "Sent",
-                                label: "",
-                                icon: Send,
-                                variant: "ghost",
-                            },
-                            {
-                                title: "Junk",
-                                label: "23",
-                                icon: ArchiveX,
-                                variant: "ghost",
-                            },
-                            {
-                                title: "Trash",
-                                label: "",
-                                icon: Trash2,
-                                variant: "ghost",
-                            },
-                            {
-                                title: "Archive",
-                                label: "",
-                                icon: Archive,
-                                variant: "ghost",
-                            },
-                        ]}
-                    />
+                    <Sidebar user={user} className="hidden lg:block" />
                 </ResizablePanel>
                 <ResizableHandle withHandle/>
                 <ResizablePanel defaultSize={440} style={{ 'overflowY': 'scroll'}}>
                             <div className="flex h-full flex-col items-center gap-4 py-4 sm:px-5">
-                                <TailwindAdvancedEditor/>
+                                <TailwindAdvancedEditor />
                             </div>
                 </ResizablePanel>
             </ResizablePanelGroup>

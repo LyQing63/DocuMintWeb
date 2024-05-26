@@ -8,6 +8,10 @@ export type Page= {
      */
     content?: string;
     /**
+     * title
+     */
+    title?: string;
+    /**
      * createDate
      */
     createDate?: string;

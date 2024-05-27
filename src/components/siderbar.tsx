@@ -1,21 +1,30 @@
 import {cn} from "@/lib/utils"
 import {Button, buttonVariants} from "@/components/tailwind/ui/button"
-import {useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {Page, Service} from "@/api";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "./tailwind/ui/accordion";
 
 const initialValue: Page[] = [];
 
-export function Sidebar({ className, user }) {
+export function Sidebar({ className }) {
     const [pages, setPages] = useState(initialValue);
     const [docDisable, setDocDisable] = useState(false);
-    const res = Service.getListUsingPost(user);
-    if (res) {
-        res.then(r => {
-            const newPages = r.data.pages;
-            setPages(newPages);
-        })
-    }
+
+    const getPage = useCallback(()=>{
+        const user = JSON.parse(window.localStorage.getItem('user'));
+        const res = Service.getListUsingPost(user);
+        if (res) {
+            res.then(r => {
+                const newPages = r.data.pages;
+                setPages(newPages);
+            })
+        }
+    }, []);
+
+    useEffect(() => {
+        getPage();
+    }, [getPage]);
+
 
     const handleClick = (event, page) => {
         window.localStorage.setItem("novel-content", page.content);

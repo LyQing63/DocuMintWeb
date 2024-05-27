@@ -1,12 +1,10 @@
 'use client';
 
-import {useEffect, useState} from "react";
+import * as React from "react";
+import {useCallback, useEffect, useState} from "react";
 import {OpenAPI, Service} from "@/api";
 import {useRouter} from "next/navigation";
-import AvatarMenu from "@/components/avatar-menu";
 import {EditorDashboard} from "@/components/editor-dashboard";
-import {Separator} from "@/components/tailwind/ui/separator";
-import * as React from "react";
 import {useToast} from "@/components/tailwind/ui/use-toast";
 
 const initialLoginParams = {
@@ -27,16 +25,18 @@ export default function Page() {
     const router = useRouter();
     const [user, setUser] = useState(initialLoginParams);
 
-    const getLoginUser = async () => {
+    const getLoginUser = useCallback(() => {
         const token = localStorage.getItem('token');
         if (token) {
             OpenAPI.TOKEN = token;
-            await Service.isLoginUsingGet().then(res => {
+            Service.isLoginUsingGet().then(res => {
                 const userId = res.data.id;
                 if (userId) {
                     Service.getInfoUsingGet(token).then(res => {
                         setUser(res.data);
+                        window.localStorage.setItem('user', JSON.stringify(res.data));
                     });
+
                 } else {
                     toast({
                         variant: "destructive",
@@ -45,7 +45,6 @@ export default function Page() {
                     router.push("/");
                 }
             });
-            setUser(user);
         } else {
             toast({
                 variant: "destructive",
@@ -53,18 +52,16 @@ export default function Page() {
             });
             router.push("/");
         }
-
-    }
+        }, []);
 
     useEffect(() => {
         getLoginUser();
-    }, []);
+    }, [getLoginUser]);
 
 
     return (
             <div className="hidden flex-col md:flex h-full">
                 <EditorDashboard
-                    user={user}
                     navCollapsedSize={4}
                 />
             </div>

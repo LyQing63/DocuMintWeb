@@ -14,13 +14,14 @@ import {Service} from "@/api";
 import {useRouter} from "next/navigation";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/tailwind/ui/avatar";
 import {useToast} from "@/components/tailwind/ui/use-toast";
+import Link from "next/link";
 
-export default function AvatarMenu({ user }) {
+export default function AvatarMenu() {
   // const { font: currentFont, setFont } = useContext(AppContext);
   const { theme: currentTheme, setTheme } = useTheme();
   const router = useRouter();
   const {toast} = useToast();
-
+  const user = JSON.parse(window.localStorage.getItem('user'));
   const logout = ()=> {
     const res = Service.logoutUsingPost();
     res.then(r => {
@@ -57,7 +58,7 @@ export default function AvatarMenu({ user }) {
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <Settings className="mr-2 h-4 w-4" />
-            <span>Settings</span>
+            <Link href="./setting">Settings</Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <LifeBuoy className="mr-2 h-4 w-4" />

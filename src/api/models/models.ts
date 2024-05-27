@@ -50,3 +50,11 @@ export type User = {
     userRole: string
 };
 
+export type UserUpateParams = {
+    gender: number|undefined,
+    id: number|undefined,
+    userAvatar: string,
+    userName: string,
+};
+
+

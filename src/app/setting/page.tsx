@@ -3,7 +3,6 @@
 import {Separator} from "@/components/tailwind/ui/separator";
 import {ProfileForm} from "@/app/setting/profile-form";
 
-
 export default function Setting() {
 
     return (

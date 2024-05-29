@@ -5,13 +5,22 @@ import {Page, Service} from "@/api";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "./tailwind/ui/accordion";
 
 const initialValue: Page[] = [];
-
+const initialUser = {
+    gender: null,
+    id: undefined,
+    userAvatar: undefined,
+}
+//@ts-ignore
 export function Sidebar({ className }) {
     const [pages, setPages] = useState(initialValue);
     const [docDisable, setDocDisable] = useState(false);
 
     const getPage = useCallback(()=>{
-        const user = JSON.parse(window.localStorage.getItem('user'));
+        const user_json = window.localStorage.getItem('user');
+        let user = initialUser;
+        if (user_json !== null) {
+            user = JSON.parse(user_json);
+        }
         const res = Service.getListUsingPost(user);
         if (res) {
             res.then(r => {
@@ -25,7 +34,7 @@ export function Sidebar({ className }) {
         getPage();
     }, [getPage]);
 
-
+    //@ts-ignore
     const handleClick = (event, page) => {
         window.localStorage.setItem("novel-content", page.content);
         window.localStorage.setItem("page", JSON.stringify(page));

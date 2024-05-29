@@ -1,7 +1,7 @@
 import {LifeBuoy, LogOut, Settings} from "lucide-react";
 import {useTheme} from "next-themes";
 import {Button} from "./tailwind/ui/button";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,13 +15,30 @@ import {useRouter} from "next/navigation";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/tailwind/ui/avatar";
 import {useToast} from "@/components/tailwind/ui/use-toast";
 import Link from "next/link";
+import useLocalStorage from "@/hooks/use-local-storage";
+
+const initialUser = {
+  gender: null,
+  id: undefined,
+  userAvatar: undefined,
+  userName: undefined,
+}
 
 export default function AvatarMenu() {
-  // const { font: currentFont, setFont } = useContext(AppContext);
+
   const { theme: currentTheme, setTheme } = useTheme();
   const router = useRouter();
+
+  const [user, setUser] = useLocalStorage('user', initialUser);
+
+  // const user_json = window.localStorage.getItem('user');
+  // let user = initialUser;
+  // if (user_json !== null) {
+  //   user = JSON.parse(user_json);
+  // }
+
   const {toast} = useToast();
-  const user = JSON.parse(window.localStorage.getItem('user'));
+
   const logout = ()=> {
     const res = Service.logoutUsingPost();
     res.then(r => {

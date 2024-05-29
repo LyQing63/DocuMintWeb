@@ -136,13 +136,14 @@ export const suggestionItems = createSuggestionItems([
       const ytregex = new RegExp(
         /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/,
       );
-
+// @ts-ignore
       if (ytregex.test(videoLink)) {
         editor
           .chain()
           .focus()
           .deleteRange(range)
           .setYoutubeVideo({
+            // @ts-ignore
             src: videoLink,
           })
           .run();

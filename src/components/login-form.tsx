@@ -10,8 +10,8 @@ import Link from "next/link";
 import {OpenAPI, Service} from "@/api";
 import {User} from "@/api/index";
 import {useToast} from "@/components/tailwind/ui/use-toast";
-import useLocalStorage from "@/hooks/use-local-storage";
 import {useEffect} from "react";
+import useLocalStorage from "@/hooks/use-local-storage";
 
 
 const initialLoginParams: User = {
@@ -30,6 +30,9 @@ export function LoginForm() {
     const { toast } = useToast();
     const router = useRouter();
     const [loginParams, updateLoginParams] = useImmer(initialLoginParams);
+
+    const [token, setToken] = useLocalStorage('token', null);
+
     const login = () => {
         const res = Service.loginUsingPost(loginParams);
         res.then(async r => {
@@ -38,7 +41,7 @@ export function LoginForm() {
                     description: "登录成功",
                 });
                 const token = r.data.token;
-                localStorage.setItem('token', token);
+                setToken(token);
                 OpenAPI.TOKEN = token;
                 router.push('/editor');
             } else {
@@ -50,16 +53,14 @@ export function LoginForm() {
             }
         });
     }
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
+        // const token = localStorage.getItem('token');
         if (token) {
             toast({
                 description: "您已登录",
             });
             router.push('/editor');
         }
-    }, []);
+
 
   return (
     <Card className="w-full max-w-sm">

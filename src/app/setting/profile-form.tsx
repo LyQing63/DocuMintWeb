@@ -19,6 +19,8 @@ import {RadioGroup, RadioGroupItem} from "@/components/tailwind/ui/radio-group";
 import {Label} from "@/components/tailwind/ui/label";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/tailwind/ui/avatar";
 import {Service} from "@/api";
+import {useEffect, useState} from "react";
+import useLocalStorage from "@/hooks/use-local-storage";
 
 const profileFormSchema = z.object({
     userName: z
@@ -37,11 +39,18 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>
 
 // This can come from your database or API.
 
+const initialUser = {
+    gender: null,
+    id: undefined,
+    userAvatar: undefined,
+}
 
 export function ProfileForm() {
 
-    const user = JSON.parse(window.localStorage.getItem('user'));
     const { toast } = useToast();
+
+    const [user, setUser] = useLocalStorage('user',initialUser);
+
     const form = useForm<ProfileFormValues>({
         resolver: zodResolver(profileFormSchema),
         defaultValues: {...user, gender: user.gender ? 'woman' : 'man'},

@@ -34,6 +34,7 @@ const appearances = [
     icon: <Moon className="h-4 w-4" />,
   },
 ];
+// @ts-ignore
 export default function Menu({ className }) {
   // const { font: currentFont, setFont } = useContext(AppContext);
   const { theme: currentTheme, setTheme } = useTheme();

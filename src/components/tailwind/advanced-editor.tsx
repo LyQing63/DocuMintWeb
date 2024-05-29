@@ -24,9 +24,14 @@ import GenerativeMenuSwitch from "./generative/generative-menu-switch";
 import { uploadFn } from "./image-upload";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
-import {Service} from "@/api";
+import {Page, Service} from "@/api";
 
 const extensions = [...defaultExtensions, slashCommand];
+
+const initialPage: Page = {
+  content: undefined,
+
+};
 
 const TailwindAdvancedEditor = () => {
   const [initialContent, setInitialContent] = useState<null | JSONContent>(null);
@@ -43,7 +48,11 @@ const TailwindAdvancedEditor = () => {
     window.localStorage.setItem("html-content", editor.getHTML());
     window.localStorage.setItem("novel-content", JSON.stringify(json));
     window.localStorage.setItem("markdown", editor.storage.markdown.getMarkdown());
-    const page = JSON.parse(window.localStorage.getItem("page"));
+    const page_json = window.localStorage.getItem('page');
+    let page = initialPage;
+    if (page_json !== null) {
+      page = JSON.parse(page_json);
+    }
     page.content = JSON.stringify(json);
     Service.saveUsingPost(page);
     setSaveStatus("Saved");
@@ -57,6 +66,7 @@ const TailwindAdvancedEditor = () => {
 
   if (!initialContent) return null;
 
+  // @ts-ignore
   return (
     <div className="relative w-full max-w-screen-lg ">
       <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
@@ -93,6 +103,7 @@ const TailwindAdvancedEditor = () => {
               {suggestionItems.map((item) => (
                 <EditorCommandItem
                   value={item.title}
+                  // @ts-ignore
                   onCommand={(val) => item.command(val)}
                   className="flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm hover:bg-accent aria-selected:bg-accent"
                   key={item.title}

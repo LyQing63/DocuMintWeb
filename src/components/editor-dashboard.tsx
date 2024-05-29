@@ -11,18 +11,27 @@ import AvatarMenu from "@/components/avatar-menu";
 import TailwindAdvancedEditor from "@/components/tailwind/advanced-editor";
 import {Sidebar} from "./siderbar"
 import { Skeleton } from "./tailwind/ui/skeleton"
+import {useEffect, useState} from "react";
+import useLocalStorage from "@/hooks/use-local-storage";
 
 interface Props {
-    defaultLayout: number[] | undefined
     defaultCollapsed?: boolean
     navCollapsedSize: number
-    user: unknown
+}
+
+const initialUser = {
+    gender: null,
+    id: undefined,
+    userAvatar: undefined,
+    userName: undefined
 }
 
 export function EditorDashboard({
                          navCollapsedSize = 20,
                      }: Props) {
-    const user = JSON.parse(window.localStorage.getItem('user'));
+
+    const [user, setUser] = useLocalStorage('user', initialUser);
+
     // @ts-ignore
     return (
         <TooltipProvider delayDuration={0}>

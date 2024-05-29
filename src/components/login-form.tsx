@@ -47,6 +47,7 @@ export function LoginForm() {
                     Service.getInfoUsingGet(token).then(res => {
                         setUser(res.data);
                     });
+                    router.push('/editor');
                 }
             });
     };
@@ -63,7 +64,6 @@ export function LoginForm() {
                 setToken(token);
                 OpenAPI.TOKEN = token;
                 await getLoginUser();
-                router.push('/editor');
             } else {
                 toast({
                     variant: "destructive",

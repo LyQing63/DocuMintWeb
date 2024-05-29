@@ -35,6 +35,12 @@ export function LoginForm() {
 
     const getLoginUser = async () => {
             OpenAPI.TOKEN = token;
+            if (!token) {
+                toast({
+                    variant: "destructive",
+                    title: "未登录",
+                });
+            }
             Service.isLoginUsingGet().then(res => {
                 const userId = res.data.id;
                 if (userId) {

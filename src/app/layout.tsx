@@ -1,11 +1,10 @@
 import "@/styles/globals.css";
 import "@/styles/prosemirror.css";
 
-import type { Metadata, Viewport } from "next";
-import type { ReactNode } from "react";
+import type {Metadata, Viewport} from "next";
+import type {ReactNode} from "react";
 import Providers from "./providers";
 import {Toaster} from "@/components/tailwind/ui/toaster";
-import {Head} from "next/document";
 
 const title = "DocuMint：智能编辑，精雕细琢";
 const description =

@@ -1,5 +1,4 @@
 import {LoginForm} from "@/components/login-form";
-import {Head} from "next/document";
 
 export default function LoginPage() {
     return (

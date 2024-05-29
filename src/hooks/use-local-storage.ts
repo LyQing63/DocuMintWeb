@@ -9,6 +9,7 @@ const useLocalStorage = <T>(
 
   useEffect(() => {
     // Retrieve from localStorage
+    // window.localStorage.removeItem('token');
     const item = window.localStorage.getItem(key);
     if (item) {
       setStoredValue(JSON.parse(item));
@@ -16,10 +17,10 @@ const useLocalStorage = <T>(
   }, [key]);
 
   const setValue = (value: T) => {
+    window.localStorage.setItem(key, JSON.stringify(value));
     // Save state
     setStoredValue(value);
     // Save to localStorage
-    window.localStorage.setItem(key, JSON.stringify(value));
   };
   return [storedValue, setValue];
 };

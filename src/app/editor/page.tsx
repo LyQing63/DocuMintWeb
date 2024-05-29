@@ -1,11 +1,10 @@
 'use client';
 
 import * as React from "react";
-import {useEffect, useState} from "react";
-import {OpenAPI, Service} from "@/api";
 import {useRouter} from "next/navigation";
 import {EditorDashboard} from "@/components/editor-dashboard";
 import {useToast} from "@/components/tailwind/ui/use-toast";
+import useLocalStorage from "@/hooks/use-local-storage";
 
 const initialLoginParams = {
     createTime: '',
@@ -23,38 +22,10 @@ export default function Page() {
 
     const {toast} = useToast();
     const router = useRouter();
-    const [user, setUser] = useState(initialLoginParams);
-    useEffect(() => {
-        const getLoginUser = () => {
-            const token = global.localStorage.getItem('token');
-            if (token) {
-                OpenAPI.TOKEN = token;
-                Service.isLoginUsingGet().then(res => {
-                    const userId = res.data.id;
-                    if (userId) {
-                        Service.getInfoUsingGet(token).then(res => {
-                            setUser(res.data);
-                            window.localStorage.setItem('user', JSON.stringify(res.data));
-                        });
+    const [user, setUser] = useLocalStorage('user', initialLoginParams);
+    // console.log(token);
 
-                    } else {
-                        toast({
-                            variant: "destructive",
-                            description: res.message,
-                        });
-                        router.push("/");
-                    }
-                });
-            } else {
-                toast({
-                    variant: "destructive",
-                    description: "token缺失，请重新登录",
-                });
-                router.push("/");
-            }
-        };
-        getLoginUser();
-    }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
 
 
     return (

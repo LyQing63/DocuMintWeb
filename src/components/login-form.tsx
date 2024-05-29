@@ -30,8 +30,20 @@ export function LoginForm() {
     const { toast } = useToast();
     const router = useRouter();
     const [loginParams, updateLoginParams] = useImmer(initialLoginParams);
+    const [user, setUser] = useLocalStorage('user', initialLoginParams);
+    const [token, setToken] = useLocalStorage('token', undefined);
 
-    const [token, setToken] = useLocalStorage('token', null);
+    const getLoginUser = async () => {
+            OpenAPI.TOKEN = token;
+            Service.isLoginUsingGet().then(res => {
+                const userId = res.data.id;
+                if (userId) {
+                    Service.getInfoUsingGet(token).then(res => {
+                        setUser(res.data);
+                    });
+                }
+            });
+    };
 
     const login = () => {
         const res = Service.loginUsingPost(loginParams);
@@ -41,8 +53,10 @@ export function LoginForm() {
                     description: "登录成功",
                 });
                 const token = r.data.token;
+                // console.log(token);
                 setToken(token);
                 OpenAPI.TOKEN = token;
+                await getLoginUser();
                 router.push('/editor');
             } else {
                 toast({
@@ -55,9 +69,7 @@ export function LoginForm() {
     }
         // const token = localStorage.getItem('token');
         if (token) {
-            toast({
-                description: "您已登录",
-            });
+            setTimeout(() => {toast({description: "登录成功"})}, 1000);
             router.push('/editor');
         }
 

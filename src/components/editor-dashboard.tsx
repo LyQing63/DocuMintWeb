@@ -13,6 +13,7 @@ import {Sidebar} from "./siderbar"
 import { Skeleton } from "./tailwind/ui/skeleton"
 import {useEffect, useState} from "react";
 import useLocalStorage from "@/hooks/use-local-storage";
+import {useRouter} from "next/navigation";
 
 interface Props {
     defaultCollapsed?: boolean
@@ -29,9 +30,17 @@ const initialUser = {
 export function EditorDashboard({
                          navCollapsedSize = 20,
                      }: Props) {
-
+    const router = useRouter();
     const [user, setUser] = useLocalStorage('user', initialUser);
-
+    // const [token, setToken] = useLocalStorage('token',null);
+    // console.log(token)
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            // console.log(1);
+            router.push("/");
+        }
+    }, []);
     // @ts-ignore
     return (
         <TooltipProvider delayDuration={0}>

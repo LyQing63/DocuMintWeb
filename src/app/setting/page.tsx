@@ -2,8 +2,11 @@
 
 import {Separator} from "@/components/tailwind/ui/separator";
 import {ProfileForm} from "@/app/setting/profile-form";
+import useLocalStorage from "@/hooks/use-local-storage";
 
 export default function Setting() {
+
+    // const [user, setUser] = useLocalStorage('user', {});
 
     return (
         <div className="space-y-6">

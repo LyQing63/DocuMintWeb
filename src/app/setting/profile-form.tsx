@@ -41,9 +41,10 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>
 // This can come from your database or API.
 
 const initialUser = {
+    userName: "",
     gender: null,
-    id: undefined,
     userAvatar: undefined,
+    id: undefined,
 }
 
 export function ProfileForm() {
@@ -51,21 +52,19 @@ export function ProfileForm() {
     const { toast } = useToast();
     const router = useRouter();
 
-    const [loginState, setLoginState]
-        = useState(() => {
-        const token = localStorage.getItem('token');
-        const userInfo = localStorage.getItem('user');
-        return {token: token, user: userInfo}
-    });
-
-    // @ts-ignore
-    const user = JSON.parse(loginState.user);
+    const [user, setUser] = useLocalStorage('user', initialUser);
 
     const form = useForm<ProfileFormValues>({
         resolver: zodResolver(profileFormSchema),
         defaultValues: {...user, gender: user.gender ? 'woman' : 'man'},
         mode: "onChange",
     });
+
+    useEffect(() => {
+        form.setValue("userName", user.userName);
+        form.setValue("gender", user.gender ? 'woman' : 'man');
+        form.setValue("userAvatar", user.userAvatar);
+    }, [user]);
 
     function onSubmit(data: ProfileFormValues) {
         const newUser = {...data, id: user.id, gender: data.gender === 'man' ? 0 : 1};
@@ -76,7 +75,8 @@ export function ProfileForm() {
                         <p className="font-bold">修改成功</p>
                     ),
                 })
-                window.localStorage.setItem('user', JSON.stringify(newUser));
+                // @ts-ignore
+                setUser(newUser);
                 window.location.reload();
             } else {
                 toast({
@@ -89,70 +89,70 @@ export function ProfileForm() {
 
     return (
     <Form {...form}>
-    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-    <FormField
-        control={form.control}
-        name="userName"
-        render={({ field }) => (
-            <FormItem>
-                <FormLabel>Username</FormLabel>
-                <FormControl>
-                    <Input placeholder="your username" {...field} />
-                </FormControl>
-                <FormDescription>
-                    This is your public display name. It can be your real name or a
-                    pseudonym. You can only change this once every 30 days.
-                </FormDescription>
-                <FormMessage />
-            </FormItem>
-        )}
-    />
-    <FormField
-        control={form.control}
-        name="gender"
-        render={({ field }) => (
-        <FormItem>
-            <FormLabel>Gender</FormLabel>
-                <FormControl>
-                        <RadioGroup {...field} className="flex" onValueChange={field.onChange}>
-                            <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="man" id="r1" />
-                                <Label htmlFor="r1">man</Label>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                                <RadioGroupItem value="woman" id="r2" />
-                                <Label htmlFor="r2">woman</Label>
-                            </div>
-                        </RadioGroup>
-                </FormControl>
-            <FormDescription>
-                You can manage verified email addresses in your{" "}
-                email settings.
-            </FormDescription>
-            <FormMessage />
-        </FormItem>
-    )}
-    />
-    <FormField
-        control={form.control}
-        name="userAvatar"
-        render={({ field }) => (
-        <FormItem>
-            <FormLabel>Avatar</FormLabel>
-            <FormControl>
-                <Input placeholder="your avatar" {...field} />
-            </FormControl>
-            <FormDescription>
-                <Avatar className="items-center">
-                    <AvatarImage src={user.userAvatar} alt="@shadcn" />
-                    <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-            </FormDescription>
-            <FormMessage />
-        </FormItem>
-    )}
-    /><Button type="submit">Update user</Button>
-    </form>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+                control={form.control}
+                name="userName"
+                render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Username</FormLabel>
+                        <FormControl>
+                            <Input placeholder="your username" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                            This is your public display name. It can be your real name or a
+                            pseudonym. You can only change this once every 30 days.
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                )}
+            />
+            <FormField
+                control={form.control}
+                name="gender"
+                render={({ field }) => (
+                <FormItem>
+                    <FormLabel>Gender</FormLabel>
+                        <FormControl>
+                                <RadioGroup {...field} className="flex" onValueChange={field.onChange}>
+                                    <div className="flex items-center space-x-2">
+                                        <RadioGroupItem value="man" id="r1" />
+                                        <Label htmlFor="r1">man</Label>
+                                    </div>
+                                    <div className="flex items-center space-x-2">
+                                        <RadioGroupItem value="woman" id="r2" />
+                                        <Label htmlFor="r2">woman</Label>
+                                    </div>
+                                </RadioGroup>
+                        </FormControl>
+                    <FormDescription>
+                        You can manage verified email addresses in your{" "}
+                        email settings.
+                    </FormDescription>
+                    <FormMessage />
+                </FormItem>
+            )}
+            />
+            <FormField
+                control={form.control}
+                name="userAvatar"
+                render={({ field }) => (
+                <FormItem>
+                    <FormLabel>Avatar</FormLabel>
+                    <FormControl>
+                        <Input placeholder="your avatar" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                        <Avatar className="items-center">
+                            <AvatarImage src={user.userAvatar} alt="@shadcn" />
+                            <AvatarFallback>CN</AvatarFallback>
+                        </Avatar>
+                    </FormDescription>
+                    <FormMessage />
+                </FormItem>
+            )}
+            /><Button type="submit">Update user</Button>
+        </form>
     </Form>
     )
 }

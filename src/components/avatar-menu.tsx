@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/tailwind/ui/dropdown-menu"
 import {Service} from "@/api";
-import {useRouter} from "next/navigation";
+import {redirect, useRouter} from "next/navigation";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/tailwind/ui/avatar";
 import {useToast} from "@/components/tailwind/ui/use-toast";
 import Link from "next/link";
@@ -36,6 +36,10 @@ export default function AvatarMenu({ user }) {
   // }
 
   const {toast} = useToast();
+
+  const handleSettingRouter = () => {
+    router.push("./setting");
+  }
 
   const logout = ()=> {
     const res = Service.logoutUsingPost();
@@ -74,7 +78,7 @@ export default function AvatarMenu({ user }) {
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <Settings className="mr-2 h-4 w-4" />
-            <Link href="./setting">Settings</Link>
+            <Button onClick={handleSettingRouter}>Settings</Button>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <LifeBuoy className="mr-2 h-4 w-4" />

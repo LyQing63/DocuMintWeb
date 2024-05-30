@@ -12,6 +12,7 @@ import {User} from "@/api/index";
 import {useToast} from "@/components/tailwind/ui/use-toast";
 import Cookies from "universal-cookie";
 import {useEffect, useState} from "react";
+import useLocalStorage from "@/hooks/use-local-storage";
 
 const initialLoginParams: User = {
     createTime: '',
@@ -29,19 +30,14 @@ export function LoginForm() {
     const { toast } = useToast();
     const router = useRouter();
     const [loginParams, updateLoginParams] = useImmer(initialLoginParams);
-    const [loginState, setLoginState] = useState({token: undefined, user: undefined});
+    const [token, setToken] = useLocalStorage('token', "");
+    const [user, setUser] = useLocalStorage('user', {});
+
     const cookies = new Cookies(null, { path: '/' });
 
     useEffect(() => {
-        const token = loginState.token;
-        const user = loginState.user;
-        if (token) {
-            localStorage.setItem('token', token);
-        }
-        if (user) {
-            localStorage.setItem('user', JSON.stringify(user));
-        }
-    }, [loginState])
+
+    }, [user, token])
 
 
 
@@ -54,7 +50,7 @@ export function LoginForm() {
                 });
                 const token = r.data.token;
                 cookies.set("token", token);
-                setLoginState({...loginState, token: token});
+                setToken(token);
                 OpenAPI.TOKEN = token;
             } else {
                 toast({
@@ -66,7 +62,7 @@ export function LoginForm() {
         });
     }
         // const token = localStorage.getItem('token');
-        if (loginState.token) {
+        if (token) {
             router.push('/editor');
         }
 

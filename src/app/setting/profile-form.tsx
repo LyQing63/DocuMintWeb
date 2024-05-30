@@ -51,19 +51,15 @@ export function ProfileForm() {
     const { toast } = useToast();
     const router = useRouter();
 
-    const token = localStorage.getItem('token');
-    if (!token) {
-        toast({
-            variant: "destructive",
-            title: "未登录",
-        });
-        router.push("/");
-    }
+    const [loginState, setLoginState]
+        = useState(() => {
+        const token = localStorage.getItem('token');
+        const userInfo = localStorage.getItem('user');
+        return {token: token, user: userInfo}
+    });
 
-    const userInfo = localStorage.getItem('user');
-    const [loginState, setLoginState] = useState({token: token, user: userInfo});
     // @ts-ignore
-    const user = JSON.parse(userInfo);
+    const user = JSON.parse(loginState.user);
 
     const form = useForm<ProfileFormValues>({
         resolver: zodResolver(profileFormSchema),

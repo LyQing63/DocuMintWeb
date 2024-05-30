@@ -32,20 +32,14 @@ const initialUser = {
 export function EditorDashboard({
                          navCollapsedSize = 20,
                      }: Props) {
-    const router = useRouter();
-    const {toast} = useToast();
 
-    const token = localStorage.getItem('token');
-    if (!token) {
-        toast({
-            variant: "destructive",
-            title: "未登录",
+    const [loginState, setLoginState]
+        = useState(() => {
+            const token = localStorage.getItem('token');
+            const userInfo = localStorage.getItem('user');
+            return {token: token, user: userInfo}
         });
-        router.push("/");
-    }
 
-    const userInfo = localStorage.getItem('user');
-    const [loginState, setLoginState] = useState({token: token, user: userInfo});
     const getLoginUser = async () => {
         // @ts-ignore
         OpenAPI.TOKEN = token;

@@ -24,12 +24,10 @@ const initialUser = {
   userName: undefined,
 }
 
-export default function AvatarMenu() {
+export default function AvatarMenu({ user }) {
 
   const { theme: currentTheme, setTheme } = useTheme();
   const router = useRouter();
-
-  const [user, setUser] = useLocalStorage('user', initialUser);
 
   // const user_json = window.localStorage.getItem('user');
   // let user = initialUser;
@@ -44,6 +42,7 @@ export default function AvatarMenu() {
     res.then(r => {
       if (r.code === 20000) {
         localStorage.removeItem('token');
+        localStorage.removeItem('user');
         toast({
           description: "注销成功!",
         });

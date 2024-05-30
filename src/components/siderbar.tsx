@@ -11,28 +11,33 @@ const initialUser = {
     userAvatar: undefined,
 }
 //@ts-ignore
-export function Sidebar({ className }) {
+export function Sidebar({ className, user }) {
     const [pages, setPages] = useState(initialValue);
     const [docDisable, setDocDisable] = useState(false);
 
-    const getPage = useCallback(()=>{
-        const user_json = window.localStorage.getItem('user');
-        let user = initialUser;
-        if (user_json !== null) {
-            user = JSON.parse(user_json);
+    const getPage = ()=>{
+        // const user_json = window.localStorage.getItem('user');
+        // let user = initialUser;
+        // if (user_json !== null) {
+        //     user = JSON.parse(user_json);
+        // }
+        if (user == null) {
+            return;
         }
-        const res = Service.getListUsingPost(user);
-        if (res) {
-            res.then(r => {
-                const newPages = r.data.pages;
-                setPages(newPages);
-            })
-        }
-    }, []);
+        Service.getListUsingPost(user).then(r => {
+            const newPages = r.data.pages;
+            setPages(newPages);
+        });
+    };
 
     useEffect(() => {
         getPage();
-    }, [getPage]);
+        // console.log(user);
+    }, [user]);
+
+    useEffect(() => {
+        // console.log(pages);
+    }, [pages])
 
     //@ts-ignore
     const handleClick = (event, page) => {

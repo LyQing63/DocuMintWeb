@@ -170,7 +170,7 @@ export const getHeaders = async (config: OpenAPIConfig, options: ApiRequestOptio
         } else if (isBlob(options.body)) {
             headers['Content-Type'] = options.body.type || 'application/octet-stream';
         } else if (isString(options.body)) {
-            headers['Content-Type'] = 'text/plain';
+            headers['Content-Type'] = 'application/json';
         } else if (!isFormData(options.body)) {
             headers['Content-Type'] = 'application/json';
         }
@@ -320,3 +320,5 @@ export const request = <T>(config: OpenAPIConfig, options: ApiRequestOptions): C
         }
     });
 };
+
+

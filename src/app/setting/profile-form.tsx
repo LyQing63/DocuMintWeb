@@ -21,6 +21,7 @@ import {Avatar, AvatarFallback, AvatarImage} from "@/components/tailwind/ui/avat
 import {Service} from "@/api";
 import {useEffect, useState} from "react";
 import useLocalStorage from "@/hooks/use-local-storage";
+import {useRouter} from "next/navigation";
 
 const profileFormSchema = z.object({
     userName: z
@@ -48,8 +49,21 @@ const initialUser = {
 export function ProfileForm() {
 
     const { toast } = useToast();
+    const router = useRouter();
 
-    const [user, setUser] = useLocalStorage('user',initialUser);
+    const token = localStorage.getItem('token');
+    if (!token) {
+        toast({
+            variant: "destructive",
+            title: "未登录",
+        });
+        router.push("/");
+    }
+
+    const userInfo = localStorage.getItem('user');
+    const [loginState, setLoginState] = useState({token: token, user: userInfo});
+    // @ts-ignore
+    const user = JSON.parse(userInfo);
 
     const form = useForm<ProfileFormValues>({
         resolver: zodResolver(profileFormSchema),

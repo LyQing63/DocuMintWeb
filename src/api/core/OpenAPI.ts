@@ -31,6 +31,3 @@ export const OpenAPI: OpenAPIConfig = {
     HEADERS: undefined,
     ENCODE_PATH: undefined,
 };
-export const LoginStatus = {
-    user: undefined,
-}

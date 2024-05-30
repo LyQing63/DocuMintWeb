@@ -10,9 +10,8 @@ import Link from "next/link";
 import {OpenAPI, Service} from "@/api";
 import {User} from "@/api/index";
 import {useToast} from "@/components/tailwind/ui/use-toast";
-import {useEffect} from "react";
-import useLocalStorage from "@/hooks/use-local-storage";
-
+import Cookies from "universal-cookie";
+import {useEffect, useState} from "react";
 
 const initialLoginParams: User = {
     createTime: '',
@@ -30,27 +29,21 @@ export function LoginForm() {
     const { toast } = useToast();
     const router = useRouter();
     const [loginParams, updateLoginParams] = useImmer(initialLoginParams);
-    const [user, setUser] = useLocalStorage('user', initialLoginParams);
-    const [token, setToken] = useLocalStorage('token', undefined);
+    const [loginState, setLoginState] = useState({token: undefined, user: undefined});
+    const cookies = new Cookies(null, { path: '/' });
 
-    const getLoginUser = async () => {
-            OpenAPI.TOKEN = token;
-            if (!token) {
-                toast({
-                    variant: "destructive",
-                    title: "未登录",
-                });
-            }
-            Service.isLoginUsingGet().then(res => {
-                const userId = res.data.id;
-                if (userId) {
-                    Service.getInfoUsingGet(token).then(res => {
-                        setUser(res.data);
-                    });
-                    router.push('/editor');
-                }
-            });
-    };
+    useEffect(() => {
+        const token = loginState.token;
+        const user = loginState.user;
+        if (token) {
+            localStorage.setItem('token', token);
+        }
+        if (user) {
+            localStorage.setItem('user', JSON.stringify(user));
+        }
+    }, [loginState])
+
+
 
     const login = () => {
         const res = Service.loginUsingPost(loginParams);
@@ -60,10 +53,9 @@ export function LoginForm() {
                     description: "登录成功",
                 });
                 const token = r.data.token;
-                // console.log(token);
-                setToken(token);
+                cookies.set("token", token);
+                setLoginState({...loginState, token: token});
                 OpenAPI.TOKEN = token;
-                await getLoginUser();
             } else {
                 toast({
                     variant: "destructive",
@@ -74,8 +66,7 @@ export function LoginForm() {
         });
     }
         // const token = localStorage.getItem('token');
-        if (token) {
-            setTimeout(() => {toast({description: "登录成功"})}, 1000);
+        if (loginState.token) {
             router.push('/editor');
         }
 

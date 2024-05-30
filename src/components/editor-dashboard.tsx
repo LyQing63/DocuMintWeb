@@ -33,12 +33,8 @@ export function EditorDashboard({
                          navCollapsedSize = 20,
                      }: Props) {
 
-    const [loginState, setLoginState]
-        = useState(() => {
-            const token = localStorage.getItem('token');
-            const userInfo = localStorage.getItem('user');
-            return {token: token, user: userInfo}
-        });
+    const [token, setToken] = useLocalStorage('token', "");
+    const [user, setUser] = useLocalStorage('user', {});
 
     const getLoginUser = async () => {
         // @ts-ignore
@@ -52,7 +48,7 @@ export function EditorDashboard({
             if (userId) {
                 // @ts-ignore
                 Service.getInfoUsingGet(token).then(res => {
-                    setLoginState({...loginState, user: res.data});
+                    setUser(user)
                 });
             }
         });
@@ -60,13 +56,7 @@ export function EditorDashboard({
 
     useEffect(() => {
         getLoginUser();
-    }, [loginState.token]);
-
-    useEffect(() => {
-        if (loginState.user) {
-            localStorage.setItem('user', JSON.stringify(loginState.user));
-        }
-    }, [loginState.user]);
+    }, [token]);
 
     return (
         <TooltipProvider delayDuration={0}>
@@ -90,7 +80,7 @@ export function EditorDashboard({
                     )}
                 >
                     <div className="flex max-w-screen-lg items-center gap-2 px-4 py-2">
-                        {!loginState.user ?
+                        {!user ?
                             <>
                                 <Skeleton className="h-12 w-12 rounded-full"/>
                                 <div className="space-y-2">
@@ -99,9 +89,9 @@ export function EditorDashboard({
                             </>
                             :
                             <>
-                                <AvatarMenu user={loginState.user} />
+                                <AvatarMenu user={user} />
                                 <div className="space-y-2 font-bold">
-                                    {loginState.user.userName}
+                                    {user.userName}
                                 </div>
                             </>
                     }
@@ -109,7 +99,7 @@ export function EditorDashboard({
                     <Menu className="ml-auto"/>
                 </div>
                 <Separator/>
-                <Sidebar user={loginState.user} className="hidden lg:block"/>
+                <Sidebar user={user} className="hidden lg:block"/>
             </ResizablePanel>
                 <ResizableHandle withHandle/>
                 <ResizablePanel defaultSize={440} style={{'overflowY': 'scroll'}}>

@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import {useEffect, useState} from "react"
 
 import {cn} from "@/lib/utils"
 import {ResizableHandle, ResizablePanel, ResizablePanelGroup,} from "@/components/tailwind/ui/resizable"
@@ -11,9 +10,12 @@ import Menu from "@/components/tailwind/ui/menu";
 import AvatarMenu from "@/components/avatar-menu";
 import TailwindAdvancedEditor from "@/components/tailwind/advanced-editor";
 import {Sidebar} from "./siderbar"
-import {Skeleton} from "./tailwind/ui/skeleton"
-import {OpenAPI, Service} from "@/api";
+import { Skeleton } from "./tailwind/ui/skeleton"
+import {useEffect, useState} from "react";
 import useLocalStorage from "@/hooks/use-local-storage";
+import {useRouter} from "next/navigation";
+import {useToast} from "@/components/tailwind/ui/use-toast";
+import {OpenAPI, Service} from "@/api";
 
 interface Props {
     defaultCollapsed?: boolean
@@ -31,13 +33,12 @@ export function EditorDashboard({
                          navCollapsedSize = 20,
                      }: Props) {
 
-    const [token, setToken] = useLocalStorage('token', "");
-    const [user, setUser] = useLocalStorage('user', {});
-        // = useState(() => {
-        //     const token = localStorage.getItem('token');
-        //     const userInfo = localStorage.getItem('user');
-        //     return {token: token, user: userInfo} || {};
-        // });
+    const [loginState, setLoginState]
+        = useState(() => {
+            const token = localStorage.getItem('token');
+            const userInfo = localStorage.getItem('user');
+            return {token: token, user: userInfo}
+        });
 
     const getLoginUser = async () => {
         // @ts-ignore
@@ -51,7 +52,7 @@ export function EditorDashboard({
             if (userId) {
                 // @ts-ignore
                 Service.getInfoUsingGet(token).then(res => {
-                    setUser(res.data);
+                    setLoginState({...loginState, user: res.data});
                 });
             }
         });
@@ -59,7 +60,13 @@ export function EditorDashboard({
 
     useEffect(() => {
         getLoginUser();
-    }, [token]);
+    }, [loginState.token]);
+
+    useEffect(() => {
+        if (loginState.user) {
+            localStorage.setItem('user', JSON.stringify(loginState.user));
+        }
+    }, [loginState.user]);
 
     return (
         <TooltipProvider delayDuration={0}>
@@ -83,7 +90,7 @@ export function EditorDashboard({
                     )}
                 >
                     <div className="flex max-w-screen-lg items-center gap-2 px-4 py-2">
-                        {!user ?
+                        {!loginState.user ?
                             <>
                                 <Skeleton className="h-12 w-12 rounded-full"/>
                                 <div className="space-y-2">
@@ -92,9 +99,9 @@ export function EditorDashboard({
                             </>
                             :
                             <>
-                                <AvatarMenu user={user} />
+                                <AvatarMenu user={loginState.user} />
                                 <div className="space-y-2 font-bold">
-                                    {user.userName}
+                                    {loginState.user.userName}
                                 </div>
                             </>
                     }
@@ -102,7 +109,7 @@ export function EditorDashboard({
                     <Menu className="ml-auto"/>
                 </div>
                 <Separator/>
-                <Sidebar user={user} className="hidden lg:block"/>
+                <Sidebar user={loginState.user} className="hidden lg:block"/>
             </ResizablePanel>
                 <ResizableHandle withHandle/>
                 <ResizablePanel defaultSize={440} style={{'overflowY': 'scroll'}}>

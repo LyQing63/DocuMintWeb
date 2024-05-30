@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import {useEffect, useState} from "react"
 
 import {cn} from "@/lib/utils"
 import {ResizableHandle, ResizablePanel, ResizablePanelGroup,} from "@/components/tailwind/ui/resizable"
@@ -10,11 +11,7 @@ import Menu from "@/components/tailwind/ui/menu";
 import AvatarMenu from "@/components/avatar-menu";
 import TailwindAdvancedEditor from "@/components/tailwind/advanced-editor";
 import {Sidebar} from "./siderbar"
-import { Skeleton } from "./tailwind/ui/skeleton"
-import {useEffect, useState} from "react";
-import useLocalStorage from "@/hooks/use-local-storage";
-import {useRouter} from "next/navigation";
-import {useToast} from "@/components/tailwind/ui/use-toast";
+import {Skeleton} from "./tailwind/ui/skeleton"
 import {OpenAPI, Service} from "@/api";
 
 interface Props {
@@ -42,7 +39,7 @@ export function EditorDashboard({
 
     const getLoginUser = async () => {
         // @ts-ignore
-        OpenAPI.TOKEN = token;
+        OpenAPI.TOKEN = loginState.token;
         // toast({
         //     variant: "destructive",
         //     title: "未登录",
@@ -51,7 +48,7 @@ export function EditorDashboard({
             const userId = res.data.id;
             if (userId) {
                 // @ts-ignore
-                Service.getInfoUsingGet(token).then(res => {
+                Service.getInfoUsingGet(loginState.token).then(res => {
                     setLoginState({...loginState, user: res.data});
                 });
             }

@@ -1,10 +1,7 @@
 'use client';
 
 import * as React from "react";
-import {useRouter} from "next/navigation";
 import {EditorDashboard} from "@/components/editor-dashboard";
-import {useToast} from "@/components/tailwind/ui/use-toast";
-import useLocalStorage from "@/hooks/use-local-storage";
 
 const initialLoginParams = {
     createTime: '',
@@ -20,12 +17,6 @@ const initialLoginParams = {
 
 export default function Page() {
 
-    const {toast} = useToast();
-    const router = useRouter();
-    const [user, setUser] = useLocalStorage('user', initialLoginParams);
-    // console.log(token);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
 
 
     return (

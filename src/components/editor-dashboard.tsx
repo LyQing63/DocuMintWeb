@@ -48,7 +48,7 @@ export function EditorDashboard({
             if (userId) {
                 // @ts-ignore
                 Service.getInfoUsingGet(token).then(res => {
-                    setUser(user)
+                    setUser(res.data)
                 });
             }
         });

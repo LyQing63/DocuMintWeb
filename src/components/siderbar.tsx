@@ -21,7 +21,7 @@ export function Sidebar({ className, user }) {
         // if (user_json !== null) {
         //     user = JSON.parse(user_json);
         // }
-        if (user == null) {
+        if (user.id == null) {
             return;
         }
         Service.getListUsingPost(user).then(r => {

@@ -18,7 +18,7 @@ export type Page= {
     /**
      * id
      */
-    id?: string;
+    id?: number;
     /**
      * isDelete
      */
@@ -26,7 +26,7 @@ export type Page= {
     /**
      * isInBin
      */
-    isInBin?: string;
+    isInBin?: number;
     /**
      * updateDate
      */

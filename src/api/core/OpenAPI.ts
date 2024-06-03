@@ -21,7 +21,7 @@ export type OpenAPIConfig = {
 };
 
 export const OpenAPI: OpenAPIConfig = {
-    BASE: 'https://documint-backend-95146-4-1317247271.sh.run.tcloudbase.com',
+    BASE: 'http://47.116.168.31:8080',
     VERSION: '1.0',
     WITH_CREDENTIALS: false,
     CREDENTIALS: 'include',

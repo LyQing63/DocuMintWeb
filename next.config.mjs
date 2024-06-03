@@ -12,6 +12,17 @@ const nextConfig = {
         // !! WARN !!
         ignoreBuildErrors: true,
     },
+    async headers() {
+        return [
+            {
+                // Apply these headers to all routes in your application.
+                source: "/:path*",
+                headers: [
+                    { key: "Access-Control-Allow-Origin", value: "*" },
+                ],
+            },
+        ];
+    },
 };
 
 export default nextConfig;

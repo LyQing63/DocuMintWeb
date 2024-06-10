@@ -16,7 +16,7 @@ export class Service {
      * @throws ApiError
      */
     public static addUsingPost(
-        user: Page,
+        user: User,
     ): CancelablePromise<Result | any> {
         return __request(OpenAPI, {
             method: 'POST',

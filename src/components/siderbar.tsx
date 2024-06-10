@@ -48,7 +48,7 @@ export function Sidebar({ className, user }) {
 
     return (
         <div className={cn("pb-12", className)}>
-                <nav className="flex flex-col gap-6">
+                <nav className="flex flex-col gap-6 z-50">
                     {pages ? (
                             <Accordion type="single" collapsible defaultValue="Docs">
                                 <AccordionItem value="Docs" className="border-b-0">

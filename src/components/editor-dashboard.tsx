@@ -16,6 +16,7 @@ import useLocalStorage from "@/hooks/use-local-storage";
 import {useRouter} from "next/navigation";
 import {useToast} from "@/components/tailwind/ui/use-toast";
 import {OpenAPI, Service} from "@/api";
+import {Button} from "@/components/tailwind/ui/button";
 
 interface Props {
     defaultCollapsed?: boolean
@@ -35,6 +36,27 @@ export function EditorDashboard({
 
     const [token, setToken] = useLocalStorage('token', "");
     const [user, setUser] = useLocalStorage('user', {});
+    const {toast} = useToast();
+
+    const addNewPage = ()=> {
+        if (!user.id) {
+            return;
+        }
+        Service.addUsingPost(user).then(res => {
+            if (res.code === 20000) {
+                toast({
+                    title: "添加成功",
+                });
+                window.location.reload();
+            } else {
+                toast({
+                    title: "添加失败",
+                    variant: "destructive",
+                    description: res.message,
+                });
+            }
+        });
+    }
 
     const getLoginUser = async () => {
         // @ts-ignore
@@ -106,6 +128,14 @@ export function EditorDashboard({
                             <div className="flex h-full flex-col items-center gap-4 py-4 sm:px-5">
                                 <TailwindAdvancedEditor />
                             </div>
+                        <Button onClick={addNewPage} className="absolute rounded-full bg-gray-100 hover:bg-gray-200 shadow-xl top-4 right-8 w-12 h-12">
+                            <svg className="icon" viewBox="0 0 1024 1024" version="1.1"
+                                 xmlns="http://www.w3.org/2000/svg" p-id="847" width="128" height="128">
+                                <path
+                                    d="M542.72 153.6v327.68H870.4v61.44h-327.68V870.4H481.28v-327.68H153.6V481.28h327.68V153.6z"
+                                    fill="#2c2c2c" p-id="848"></path>
+                            </svg>
+                        </Button>
                 </ResizablePanel>
             </ResizablePanelGroup>
         </TooltipProvider>

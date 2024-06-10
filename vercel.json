@@ -1,0 +1,9 @@
+{
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "http://47.116.168.31/:path*",
+      "methods": ["GET", "POST", "PUT", "DELETE"]
+    }
+  ]
+}

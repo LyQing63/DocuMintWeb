@@ -6,7 +6,7 @@
     },
     {
       "src": "/ai/generate/(.*)",
-      "dest": "http://10.156.43.58:8080/$1"
+      "dest": "https://jfwd45ucc7p6l6y6.aistudio-hub.baidu.com/$1"
     }
   ]
 }

@@ -21,7 +21,7 @@ export type OpenAPIConfig = {
 };
 
 export const OpenAPI: OpenAPIConfig = {
-    BASE: 'https://docu-mint-web.vercel.app/api',
+    BASE: 'https://lyqing.icu/api',
     VERSION: '1.0',
     WITH_CREDENTIALS: false,
     CREDENTIALS: 'include',

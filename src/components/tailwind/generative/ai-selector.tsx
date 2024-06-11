@@ -28,7 +28,7 @@ export function AISelector({ onOpenChange }: AISelectorProps) {
 
   const { completion, complete, isLoading } = useCompletion({
     // id: "novel",
-    api: "https://documint.com/ai/generate",
+    api: "https://lyqing.icu/ai/generate",
     onResponse: (response) => {
       if (response.status === 429) {
         toast.error("You have reached your request limit for the day.");

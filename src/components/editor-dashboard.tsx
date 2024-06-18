@@ -130,7 +130,7 @@ export function EditorDashboard({
                     <Menu className="ml-auto"/>
                 </div>
                 <Separator/>
-                <Sidebar className="hidden lg:block"/>
+                <Sidebar className="hidden lg:block h-full"/>
             </ResizablePanel>
                 <ResizableHandle withHandle/>
                 <ResizablePanel defaultSize={440} style={{'overflowY': 'scroll'}}>

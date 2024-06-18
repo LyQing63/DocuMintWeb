@@ -211,15 +211,17 @@ const TailwindAdvancedEditor = () => {
           </ContextMenuCheckboxItem>
           <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
           <ContextMenuSeparator/>
-          <ContextMenuRadioGroup value="pedro">
+          <ContextMenuRadioGroup>
             <ContextMenuItem onClick={() => deletePage()} inset>
               删除
             </ContextMenuItem>
             <ContextMenuSeparator/>
-            <ContextMenuRadioItem value="pedro">
-              Pedro Duarte
-            </ContextMenuRadioItem>
-            <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
+            <ContextMenuItem inset>
+              OCR
+            </ContextMenuItem>
+            <ContextMenuItem inset>
+              语音输入
+            </ContextMenuItem>
           </ContextMenuRadioGroup>
         </ContextMenuContent>
       </ContextMenu>

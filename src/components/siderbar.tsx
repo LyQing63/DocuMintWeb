@@ -3,6 +3,7 @@ import {Button, buttonVariants} from "@/components/tailwind/ui/button"
 import {useContext, useEffect, useState} from "react";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "./tailwind/ui/accordion";
 import {PageContext} from "@/context/pageListContext";
+import {Separator} from "@radix-ui/react-menu";
 
 
 const initialUser = {
@@ -47,7 +48,7 @@ export function Sidebar({ className }) {
 
     return (
         <div className={cn("pb-12", className)}>
-                <nav className="flex flex-col gap-6 z-50">
+                <nav className="flex flex-col gap-6 h-full justify-between">
                     {pages ? (
                             <Accordion type="single" collapsible defaultValue="Docs">
                                 <AccordionItem value="Docs" className="border-b-0">
@@ -107,6 +108,8 @@ export function Sidebar({ className }) {
                                     Docs
                         </Button>)
                         }
+                        <Separator />
+                        <Button className="m-3 mb-6">对文档询问</Button>
                 </nav>
         </div>
     )

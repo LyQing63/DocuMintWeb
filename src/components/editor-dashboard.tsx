@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import {useContext, useEffect, useState} from "react"
 
 import {cn} from "@/lib/utils"
 import {ResizableHandle, ResizablePanel, ResizablePanelGroup,} from "@/components/tailwind/ui/resizable"
@@ -10,19 +11,18 @@ import Menu from "@/components/tailwind/ui/menu";
 import AvatarMenu from "@/components/avatar-menu";
 import TailwindAdvancedEditor from "@/components/tailwind/advanced-editor";
 import {Sidebar} from "./siderbar"
-import { Skeleton } from "./tailwind/ui/skeleton"
-import {useEffect, useState} from "react";
+import {Skeleton} from "./tailwind/ui/skeleton"
 import useLocalStorage from "@/hooks/use-local-storage";
-import {useRouter} from "next/navigation";
+import {PageContext} from "@/context/pageListContext"
 import {useToast} from "@/components/tailwind/ui/use-toast";
-import {OpenAPI, Service} from "@/api";
+import {OpenAPI, Page, Service} from "@/api";
 import {Button} from "@/components/tailwind/ui/button";
 
 interface Props {
     defaultCollapsed?: boolean
     navCollapsedSize: number
 }
-
+const initialValue: Page[] = [];
 const initialUser = {
     gender: null,
     id: undefined,
@@ -33,10 +33,11 @@ const initialUser = {
 export function EditorDashboard({
                          navCollapsedSize = 20,
                      }: Props) {
-
     const [token, setToken] = useLocalStorage('token', "");
     const [user, setUser] = useLocalStorage('user', {});
     const {toast} = useToast();
+    const { getPage } = useContext(PageContext);
+
 
     const addNewPage = ()=> {
         if (!user.id) {
@@ -47,7 +48,7 @@ export function EditorDashboard({
                 toast({
                     title: "添加成功",
                 });
-                window.location.reload();
+                getPage();
             } else {
                 toast({
                     title: "添加失败",
@@ -58,27 +59,35 @@ export function EditorDashboard({
         });
     }
 
-    const getLoginUser = async () => {
-        // @ts-ignore
-        OpenAPI.TOKEN = token;
-        // toast({
-        //     variant: "destructive",
-        //     title: "未登录",
-        // });
-        Service.isLoginUsingGet().then(res => {
-            const userId = res.data.id;
-            if (userId) {
-                // @ts-ignore
-                Service.getInfoUsingGet(token).then(res => {
-                    setUser(res.data)
-                });
-            }
-        });
-    };
-
     useEffect(() => {
+        const getLoginUser = async () => {
+            // @ts-ignore
+            OpenAPI.TOKEN = token;
+            // toast({
+            //     variant: "destructive",
+            //     title: "未登录",
+            // });
+            await Service.isLoginUsingGet().then(res => {
+                const userId = res.data.id;
+                if (userId) {
+                    // @ts-ignore
+                    Service.getInfoUsingGet(token).then(res => {
+                        setUser(res.data)
+                    });
+                }
+            });
+        };
+
         getLoginUser();
     }, [token]);
+
+    useEffect(() => {
+        if (user) {
+            getPage(user);
+        }
+
+    }, [user]);
+
 
     return (
         <TooltipProvider delayDuration={0}>
@@ -121,7 +130,7 @@ export function EditorDashboard({
                     <Menu className="ml-auto"/>
                 </div>
                 <Separator/>
-                <Sidebar user={user} className="hidden lg:block"/>
+                <Sidebar className="hidden lg:block"/>
             </ResizablePanel>
                 <ResizableHandle withHandle/>
                 <ResizablePanel defaultSize={440} style={{'overflowY': 'scroll'}}>

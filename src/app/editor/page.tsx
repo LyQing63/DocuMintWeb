@@ -11,6 +11,7 @@ import {
     ContextMenuSubContent, ContextMenuSubTrigger,
     ContextMenuTrigger
 } from "@/components/tailwind/ui/context-menu";
+import PageDataProvider from "@/context/pageListContext";
 
 const initialLoginParams = {
     createTime: '',
@@ -32,9 +33,11 @@ export default function Page() {
             <div className="hidden flex-col md:flex h-full">
                 <ContextMenu>
                     <ContextMenuTrigger className="flex items-center rounded-md text-sm">
+                        <PageDataProvider>
                         <EditorDashboard
                             navCollapsedSize={4}
                         />
+                        </PageDataProvider>
                     </ContextMenuTrigger>
                     <ContextMenuContent className="w-64">
                         <ContextMenuItem inset>

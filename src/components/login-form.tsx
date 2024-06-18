@@ -70,14 +70,14 @@ export function LoginForm() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
+        <CardTitle className="text-2xl">登录</CardTitle>
         <CardDescription>
-          Enter your Account below to login to your account.
+          {/*Enter your Account below to login to your account.*/}
         </CardDescription>
       </CardHeader>
         <CardContent className="grid gap-4">
             <div className="grid gap-2">
-                <Label htmlFor="account">Account</Label>
+                <Label htmlFor="account">用户名</Label>
                 <Input id="email" type="account" onChange={(e) => {
                     updateLoginParams(draft => {
                         draft.userAccount = e.target.value;
@@ -85,7 +85,7 @@ export function LoginForm() {
                 }} required/>
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">密码</Label>
                 <Input id="password" type="password" onChange={(e) => {
                     updateLoginParams(draft => {
                         draft.userPassword = e.target.value;
@@ -93,12 +93,12 @@ export function LoginForm() {
                 }} required/>
             </div>
             <div className="grid gap-2">
-                <Button className="w-full" onClick={login}>Sign in</Button>
+                <Button className="w-full" onClick={login}>登录</Button>
             </div>
             <div className="mt-4 text-center text-sm">
-                Don&apos;t have an account?{" "}
+                没有拥有账户?{" "}
                 <Link href="/register" className="underline">
-                    Sign up
+                    注册
                 </Link>
             </div>
         </CardContent>

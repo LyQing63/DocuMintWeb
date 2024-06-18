@@ -39,14 +39,14 @@ export function RegisterForm() {
   return (
     <Card className="w-full max-w-sm">
       <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
+        <CardTitle className="text-2xl">注册</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account.
+          {/*Enter your email below to login to your account.*/}
         </CardDescription>
       </CardHeader>
         <CardContent className="grid gap-4">
             <div className="grid gap-2">
-                <Label htmlFor="account">Account</Label>
+                <Label htmlFor="account">用户名</Label>
                 <Input id="email" type="account" onChange={(e) => {
                     updateRegisterParams(draft => {
                         draft.userAccount = e.target.value;
@@ -54,7 +54,7 @@ export function RegisterForm() {
                 }} required/>
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">密码</Label>
                 <Input id="password" type="password" onChange={(e) => {
                     updateRegisterParams(draft => {
                         draft.userPassword = e.target.value;
@@ -62,7 +62,7 @@ export function RegisterForm() {
                 }} required/>
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="password">Confirm Password</Label>
+                <Label htmlFor="password">确认密码</Label>
                 <Input id="password" type="password" onChange={(e) => {
                     updateRegisterParams(draft => {
                         draft.checkPassword = e.target.value;
@@ -71,7 +71,7 @@ export function RegisterForm() {
             </div>
         </CardContent>
         <CardFooter>
-            <Button className="w-full" onClick={register}>Sign in</Button>
+            <Button className="w-full" onClick={register}>注册</Button>
         </CardFooter>
     </Card>
   )

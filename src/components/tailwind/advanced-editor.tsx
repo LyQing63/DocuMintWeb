@@ -11,7 +11,7 @@ import {
   type JSONContent,
 } from "novel";
 import { ImageResizer, handleCommandNavigation } from "novel/extensions";
-import { useEffect, useState } from "react";
+import {useContext, useEffect, useState} from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { defaultExtensions } from "./extensions";
 import { ColorSelector } from "./selectors/color-selector";
@@ -25,6 +25,7 @@ import { uploadFn } from "./image-upload";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
 import {Page, Service} from "@/api";
+import {PageContext} from "@/context/pageListContext";
 
 const extensions = [...defaultExtensions, slashCommand];
 
@@ -34,6 +35,7 @@ const initialPage: Page = {
 };
 
 const TailwindAdvancedEditor = () => {
+  const { selectedChange, setSelectedChange } = useContext(PageContext);
   const [initialContent, setInitialContent] = useState<null | JSONContent>(null);
   const [saveStatus, setSaveStatus] = useState("Saved");
   const [charsCount, setCharsCount] = useState();
@@ -41,6 +43,7 @@ const TailwindAdvancedEditor = () => {
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
   const [openAI, setOpenAI] = useState(false);
+  const [editorKey, setEditorKey] = useState(0);
 
   const debouncedUpdates = useDebouncedCallback(async (editor: EditorInstance) => {
     const json = editor.getJSON();
@@ -59,10 +62,23 @@ const TailwindAdvancedEditor = () => {
   }, 500);
 
   useEffect(() => {
-    const content = window.localStorage.getItem("novel-content");
-    if (content) setInitialContent(JSON.parse(content));
-    else setInitialContent(defaultEditorContent);
-  }, []);
+    if (selectedChange == 1)
+    {
+      const content = window.localStorage.getItem("novel-content");
+      if (content) setInitialContent(JSON.parse(content));
+      else setInitialContent(defaultEditorContent);
+      setSelectedChange(0);
+    } else {
+      const content = window.localStorage.getItem("novel-content");
+      if (content) setInitialContent(JSON.parse(content));
+      else setInitialContent(defaultEditorContent);
+    }
+  }, [selectedChange, setSelectedChange]);
+
+  // 监听 content 的变化，触发子组件的重新渲染
+  useEffect(() => {
+    setEditorKey(prevKey => prevKey + 1); // 改变子组件的 key 来强制重新渲染
+  }, [initialContent]);
 
   if (!initialContent) return null;
 
@@ -77,6 +93,7 @@ const TailwindAdvancedEditor = () => {
       </div>
       <EditorRoot>
         <EditorContent
+            key={editorKey}
           initialContent={initialContent}
           extensions={extensions}
           className="relative min-h-[500px] w-full max-w-screen-lg border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg "

@@ -1,39 +1,38 @@
 import {cn} from "@/lib/utils"
 import {Button, buttonVariants} from "@/components/tailwind/ui/button"
-import {useCallback, useEffect, useState} from "react";
-import {Page, Service} from "@/api";
+import {useContext, useEffect, useState} from "react";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "./tailwind/ui/accordion";
+import {PageContext} from "@/context/pageListContext";
 
-const initialValue: Page[] = [];
+
 const initialUser = {
     gender: null,
     id: undefined,
     userAvatar: undefined,
 }
 //@ts-ignore
-export function Sidebar({ className, user }) {
-    const [pages, setPages] = useState(initialValue);
+export function Sidebar({ className }) {
     const [docDisable, setDocDisable] = useState(false);
+    const { pages, setSelectedChange } = useContext(PageContext);
+    // const getPage = ()=>{
+    //     // const user_json = window.localStorage.getItem('user');
+    //     // let user = initialUser;
+    //     // if (user_json !== null) {
+    //     //     user = JSON.parse(user_json);
+    //     // }
+    //     if (user.id == null) {
+    //         return;
+    //     }
+    //     Service.getListUsingPost(user).then(r => {
+    //         const newPages = r.data.pages;
+    //         setPages(newPages);
+    //     });
+    // };
 
-    const getPage = ()=>{
-        // const user_json = window.localStorage.getItem('user');
-        // let user = initialUser;
-        // if (user_json !== null) {
-        //     user = JSON.parse(user_json);
-        // }
-        if (user.id == null) {
-            return;
-        }
-        Service.getListUsingPost(user).then(r => {
-            const newPages = r.data.pages;
-            setPages(newPages);
-        });
-    };
-
-    useEffect(() => {
-        getPage();
-        // console.log(user);
-    }, [user]);
+    // useEffect(() => {
+    //     getPage();
+    //     // console.log(user);
+    // }, [user]);
 
     useEffect(() => {
         // console.log(pages);
@@ -43,7 +42,7 @@ export function Sidebar({ className, user }) {
     const handleClick = (event, page) => {
         window.localStorage.setItem("novel-content", page.content);
         window.localStorage.setItem("page", JSON.stringify(page));
-        window.location.reload();
+        setSelectedChange(1);
     }
 
     return (

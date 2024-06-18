@@ -25,7 +25,18 @@ import { uploadFn } from "./image-upload";
 import { TextButtons } from "./selectors/text-buttons";
 import { slashCommand, suggestionItems } from "./slash-command";
 import {Page, Service} from "@/api";
-import {PageContext} from "@/context/pageListContext";
+import PageDataProvider, {PageContext} from "@/context/pageListContext";
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuItem, ContextMenuLabel, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSeparator,
+  ContextMenuShortcut, ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger,
+  ContextMenuTrigger
+} from "@/components/tailwind/ui/context-menu";
+import * as React from "react";
+import {Button} from "@/components/tailwind/ui/button";
+import useLocalStorage from "@/hooks/use-local-storage";
 
 const extensions = [...defaultExtensions, slashCommand];
 
@@ -44,6 +55,7 @@ const TailwindAdvancedEditor = () => {
   const [openLink, setOpenLink] = useState(false);
   const [openAI, setOpenAI] = useState(false);
   const [editorKey, setEditorKey] = useState(0);
+  const [selectedPage, updateSelectedPage] = useLocalStorage('page', initialPage);
 
   const debouncedUpdates = useDebouncedCallback(async (editor: EditorInstance) => {
     const json = editor.getJSON();
@@ -51,13 +63,14 @@ const TailwindAdvancedEditor = () => {
     window.localStorage.setItem("html-content", editor.getHTML());
     window.localStorage.setItem("novel-content", JSON.stringify(json));
     window.localStorage.setItem("markdown", editor.storage.markdown.getMarkdown());
-    const page_json = window.localStorage.getItem('page');
-    let page = initialPage;
-    if (page_json !== null) {
-      page = JSON.parse(page_json);
+    // const page_json = window.localStorage.getItem('page');
+    // if (page_json !== null) {
+    //   selectedPage.content = JSON.parse(page_json);
+    // }
+    selectedPage.content = JSON.stringify(json);
+    if (selectedPage != null) {
+      Service.saveUsingPost(selectedPage);
     }
-    page.content = JSON.stringify(json);
-    Service.saveUsingPost(page);
     setSaveStatus("Saved");
   }, 500);
 
@@ -80,76 +93,137 @@ const TailwindAdvancedEditor = () => {
     setEditorKey(prevKey => prevKey + 1); // 改变子组件的 key 来强制重新渲染
   }, [initialContent]);
 
+  const deletePage = async () => {
+    console.log(selectedPage);
+    if (selectedPage==null) {
+      return;
+    }
+    Service.deleteUsingPost(selectedPage);
+    window.location.reload();
+  }
+
   if (!initialContent) return null;
 
   // @ts-ignore
   return (
     <div className="relative w-full max-w-screen-lg ">
-      <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
-        <div className="rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">{saveStatus}</div>
-        <div className={charsCount ? "rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground" : "hidden"}>
-          {charsCount} Words
-        </div>
-      </div>
-      <EditorRoot>
-        <EditorContent
-            key={editorKey}
-          initialContent={initialContent}
-          extensions={extensions}
-          className="relative min-h-[500px] w-full max-w-screen-lg border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg "
-          editorProps={{
-            handleDOMEvents: {
-              keydown: (_view, event) => handleCommandNavigation(event),
-            },
-            handlePaste: (view, event) => handleImagePaste(view, event, uploadFn),
-            handleDrop: (view, event, _slice, moved) => handleImageDrop(view, event, moved, uploadFn),
-            attributes: {
-              class:
-                "prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
-            },
-          }}
-          onUpdate={({ editor }) => {
-            debouncedUpdates(editor);
-            setSaveStatus("Unsaved");
-          }}
-          slotAfter={<ImageResizer />}
-        >
-          <EditorCommand className="z-50 h-auto max-h-[330px] rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">
-            <EditorCommandEmpty className="px-2 text-muted-foreground">No results</EditorCommandEmpty>
-            <EditorCommandList>
-              {suggestionItems.map((item) => (
-                <EditorCommandItem
-                  value={item.title}
-                  // @ts-ignore
-                  onCommand={(val) => item.command(val)}
-                  className="flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm hover:bg-accent aria-selected:bg-accent"
-                  key={item.title}
-                >
-                  <div className="flex h-10 w-10 items-center justify-center rounded-md border border-muted bg-background">
-                    {item.icon}
-                  </div>
-                  <div>
-                    <p className="font-medium">{item.title}</p>
-                    <p className="text-xs text-muted-foreground">{item.description}</p>
-                  </div>
-                </EditorCommandItem>
-              ))}
-            </EditorCommandList>
-          </EditorCommand>
+      <ContextMenu>
+        <ContextMenuTrigger className="flex items-center rounded-md text-sm">
 
-          <GenerativeMenuSwitch open={openAI} onOpenChange={setOpenAI}>
-            <Separator orientation="vertical" />
-            <NodeSelector open={openNode} onOpenChange={setOpenNode} />
-            <Separator orientation="vertical" />
+            <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
+              <div className="rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">{saveStatus}</div>
+              <div className={charsCount ? "rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground" : "hidden"}>
+                {charsCount} Words
+              </div>
+            </div>
+            <EditorRoot>
+              <EditorContent
+                  key={editorKey}
+                  initialContent={initialContent}
+                  extensions={extensions}
+                  className="relative min-h-[500px] w-full max-w-screen-lg border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg "
+                  editorProps={{
+                    handleDOMEvents: {
+                      keydown: (_view, event) => handleCommandNavigation(event),
+                    },
+                    handlePaste: (view, event) => handleImagePaste(view, event, uploadFn),
+                    handleDrop: (view, event, _slice, moved) => handleImageDrop(view, event, moved, uploadFn),
+                    attributes: {
+                      class:
+                          "prose prose-lg dark:prose-invert prose-headings:font-title font-default focus:outline-none max-w-full",
+                    },
+                  }}
+                  onUpdate={({editor}) => {
+                    debouncedUpdates(editor);
+                    setSaveStatus("Unsaved");
+                  }}
+                  slotAfter={<ImageResizer/>}
+              >
+                <EditorCommand
+                    className="z-50 h-auto max-h-[330px] rounded-md border border-muted bg-background px-1 py-2 shadow-md transition-all">
+                  <EditorCommandEmpty className="px-2 text-muted-foreground">No results</EditorCommandEmpty>
+                  <EditorCommandList>
+                    {suggestionItems.map((item) => (
+                        <EditorCommandItem
+                            value={item.title}
+                            // @ts-ignore
+                            onCommand={(val) => item.command(val)}
+                            className="flex w-full items-center space-x-2 rounded-md px-2 py-1 text-left text-sm hover:bg-accent aria-selected:bg-accent"
+                            key={item.title}
+                        >
+                          <div
+                              className="flex h-10 w-10 items-center justify-center rounded-md border border-muted bg-background">
+                            {item.icon}
+                          </div>
+                          <div>
+                            <p className="font-medium">{item.title}</p>
+                            <p className="text-xs text-muted-foreground">{item.description}</p>
+                          </div>
+                        </EditorCommandItem>
+                    ))}
+                  </EditorCommandList>
+                </EditorCommand>
 
-            <LinkSelector open={openLink} onOpenChange={setOpenLink} />
-            <Separator orientation="vertical" />
-            <TextButtons />
-            <Separator orientation="vertical" />
-            <ColorSelector open={openColor} onOpenChange={setOpenColor} />
-          </GenerativeMenuSwitch>
-        </EditorContent>
-      </EditorRoot>
+                <GenerativeMenuSwitch open={openAI} onOpenChange={setOpenAI}>
+                  <Separator orientation="vertical"/>
+                  <NodeSelector open={openNode} onOpenChange={setOpenNode}/>
+                  <Separator orientation="vertical"/>
+
+                  <LinkSelector open={openLink} onOpenChange={setOpenLink}/>
+                  <Separator orientation="vertical"/>
+                  <TextButtons/>
+                  <Separator orientation="vertical"/>
+                  <ColorSelector open={openColor} onOpenChange={setOpenColor}/>
+                </GenerativeMenuSwitch>
+              </EditorContent>
+            </EditorRoot>
+        </ContextMenuTrigger>
+        <ContextMenuContent className="w-64">
+          <ContextMenuItem inset>
+            Back
+            <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem inset disabled>
+            Forward
+            <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem inset>
+            Reload
+            <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuSub>
+            <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
+            <ContextMenuSubContent className="w-48">
+              <ContextMenuItem>
+                Save Page As...
+                <ContextMenuShortcut>⇧⌘S</ContextMenuShortcut>
+              </ContextMenuItem>
+              <ContextMenuItem>Create Shortcut...</ContextMenuItem>
+              <ContextMenuItem>Name Window...</ContextMenuItem>
+              <ContextMenuSeparator/>
+              <ContextMenuItem>Developer Tools</ContextMenuItem>
+            </ContextMenuSubContent>
+          </ContextMenuSub>
+          <ContextMenuSeparator/>
+          <ContextMenuCheckboxItem checked>
+            Show Bookmarks Bar
+            <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
+          </ContextMenuCheckboxItem>
+          <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
+          <ContextMenuSeparator/>
+          <ContextMenuRadioGroup value="pedro">
+            <ContextMenuItem onClick={() => deletePage()} inset>
+              删除
+            </ContextMenuItem>
+            <ContextMenuSeparator/>
+            <ContextMenuRadioItem value="pedro">
+              Pedro Duarte
+            </ContextMenuRadioItem>
+            <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
+          </ContextMenuRadioGroup>
+        </ContextMenuContent>
+      </ContextMenu>
+
     </div>
   );
 };

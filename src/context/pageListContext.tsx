@@ -1,7 +1,6 @@
 // context/DataContext.js
-import React, { createContext, useState, useEffect } from 'react';
+import React, {createContext, useState} from 'react';
 import {Service} from "@/api";
-import useLocalStorage from "@/hooks/use-local-storage";
 
 // 创建上下文
 export const PageContext = createContext();
@@ -9,6 +8,7 @@ export const PageContext = createContext();
 export const PageDataProvider = ({ children }) => {
     const [pages, setPages] = useState([]);
     const [selectedChange, setSelectedChange] = useState(0);
+    const [openDrawer, setOpenDrawer] = useState(false);
 
     // 获取数据的函数
     const getPage = (user)=>{
@@ -27,7 +27,7 @@ export const PageDataProvider = ({ children }) => {
     };
 
     return (
-        <PageContext.Provider value={{ pages, getPage, selectedChange, setSelectedChange}}>
+        <PageContext.Provider value={{ pages, getPage, selectedChange, setSelectedChange, openDrawer, setOpenDrawer}}>
             {children}
         </PageContext.Provider>
     );

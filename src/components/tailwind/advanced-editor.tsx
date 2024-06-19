@@ -50,7 +50,7 @@ const initialPage: Page = {
 };
 
 const TailwindAdvancedEditor = () => {
-  const { selectedChange, setSelectedChange } = useContext(PageContext);
+  const { selectedChange, setSelectedChange, setOpenDrawer } = useContext(PageContext);
   const [initialContent, setInitialContent] = useState<null | JSONContent>(null);
   const [saveStatus, setSaveStatus] = useState("Saved");
   const [charsCount, setCharsCount] = useState();
@@ -106,8 +106,8 @@ const TailwindAdvancedEditor = () => {
     window.location.reload();
   }
 
-  const upLoadImg = async () => {
-
+  const handleVoiceInput = async () => {
+    setOpenDrawer(true);
   }
 
   if (!initialContent) return null
@@ -223,7 +223,7 @@ const TailwindAdvancedEditor = () => {
               删除
             </ContextMenuItem>
             <ContextMenuSeparator/>
-            <ContextMenuItem inset>
+            <ContextMenuItem  onClick={handleVoiceInput} inset>
               语音输入
             </ContextMenuItem>
           </ContextMenuRadioGroup>

@@ -187,44 +187,45 @@ const TailwindAdvancedEditor = () => {
         </ContextMenuTrigger>
         <ContextMenuContent className="w-64">
           <ContextMenuItem inset>
-            Back
+            后退
             <ContextMenuShortcut>⌘[</ContextMenuShortcut>
           </ContextMenuItem>
           <ContextMenuItem inset disabled>
-            Forward
+            前进
             <ContextMenuShortcut>⌘]</ContextMenuShortcut>
           </ContextMenuItem>
           <ContextMenuItem inset>
-            Reload
+            重新加载
             <ContextMenuShortcut>⌘R</ContextMenuShortcut>
           </ContextMenuItem>
           <ContextMenuSub>
-            <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
+            <ContextMenuSubTrigger inset>更多</ContextMenuSubTrigger>
             <ContextMenuSubContent className="w-48">
               <ContextMenuItem>
-                Save Page As...
+                另存为...
                 <ContextMenuShortcut>⇧⌘S</ContextMenuShortcut>
               </ContextMenuItem>
-              <ContextMenuItem>Create Shortcut...</ContextMenuItem>
-              <ContextMenuItem>Name Window...</ContextMenuItem>
+              <ContextMenuItem>创建切片</ContextMenuItem>
+              <ContextMenuItem>重命名</ContextMenuItem>
               <ContextMenuSeparator/>
-              <ContextMenuItem>Developer Tools</ContextMenuItem>
+              <ContextMenuItem>开发者工具</ContextMenuItem>
             </ContextMenuSubContent>
           </ContextMenuSub>
           <ContextMenuSeparator/>
           <ContextMenuCheckboxItem checked>
-            Show Bookmarks Bar
+            展开书签页
             <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
           </ContextMenuCheckboxItem>
-          <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
           <ContextMenuSeparator/>
           <ContextMenuRadioGroup>
             <ContextMenuItem onClick={() => deletePage()} inset>
               删除
+              <ContextMenuShortcut>delete</ContextMenuShortcut>
             </ContextMenuItem>
             <ContextMenuSeparator/>
             <ContextMenuItem  onClick={handleVoiceInput} inset>
               语音输入
+              <ContextMenuShortcut>⌘I</ContextMenuShortcut>
             </ContextMenuItem>
           </ContextMenuRadioGroup>
         </ContextMenuContent>

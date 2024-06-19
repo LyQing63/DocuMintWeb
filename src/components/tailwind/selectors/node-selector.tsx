@@ -26,7 +26,7 @@ export type SelectorItem = {
 
 const items: SelectorItem[] = [
   {
-    name: "Text",
+    name: "文本",
     icon: TextIcon,
     // @ts-ignore
     command: (editor) => editor.chain().focus().clearNodes().run(),
@@ -36,7 +36,7 @@ const items: SelectorItem[] = [
       editor.isActive("paragraph") && !editor.isActive("bulletList") && !editor.isActive("orderedList"),
   },
   {
-    name: "Heading 1",
+    name: "大标题",
     icon: Heading1,
     // @ts-ignore
     command: (editor) => editor.chain().focus().clearNodes().toggleHeading({ level: 1 }).run(),
@@ -44,7 +44,7 @@ const items: SelectorItem[] = [
     isActive: (editor) => editor.isActive("heading", { level: 1 }),
   },
   {
-    name: "Heading 2",
+    name: "中标题",
     icon: Heading2,
     // @ts-ignore
     command: (editor) => editor.chain().focus().clearNodes().toggleHeading({ level: 2 }).run(),
@@ -52,7 +52,7 @@ const items: SelectorItem[] = [
     isActive: (editor) => editor.isActive("heading", { level: 2 }),
   },
   {
-    name: "Heading 3",
+    name: "小标题",
     icon: Heading3,
     // @ts-ignore
     command: (editor) => editor.chain().focus().clearNodes().toggleHeading({ level: 3 }).run(),
@@ -60,7 +60,7 @@ const items: SelectorItem[] = [
     isActive: (editor) => editor.isActive("heading", { level: 3 }),
   },
   {
-    name: "To-do List",
+    name: "代办列表",
     icon: CheckSquare,
     // @ts-ignore
     command: (editor) => editor.chain().focus().clearNodes().toggleTaskList().run(),
@@ -68,7 +68,7 @@ const items: SelectorItem[] = [
     isActive: (editor) => editor.isActive("taskItem"),
   },
   {
-    name: "Bullet List",
+    name: "列表",
     icon: ListOrdered,
     // @ts-ignore
     command: (editor) => editor.chain().focus().clearNodes().toggleBulletList().run(),
@@ -76,7 +76,7 @@ const items: SelectorItem[] = [
     isActive: (editor) => editor.isActive("bulletList"),
   },
   {
-    name: "Numbered List",
+    name: "编号列表",
     icon: ListOrdered,
     // @ts-ignore
     command: (editor) => editor.chain().focus().clearNodes().toggleOrderedList().run(),
@@ -84,7 +84,7 @@ const items: SelectorItem[] = [
     isActive: (editor) => editor.isActive("orderedList"),
   },
   {
-    name: "Quote",
+    name: "引用",
     icon: TextQuote,
     // @ts-ignore
     command: (editor) => editor.chain().focus().clearNodes().toggleBlockquote().run(),
@@ -92,7 +92,7 @@ const items: SelectorItem[] = [
     isActive: (editor) => editor.isActive("blockquote"),
   },
   {
-    name: "Code",
+    name: "代码",
     icon: Code,
     // @ts-ignore
     command: (editor) => editor.chain().focus().clearNodes().toggleCodeBlock().run(),

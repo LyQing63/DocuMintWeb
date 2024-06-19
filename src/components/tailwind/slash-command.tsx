@@ -18,8 +18,8 @@ import { uploadFn } from "./image-upload";
 
 export const suggestionItems = createSuggestionItems([
   {
-    title: "Send Feedback",
-    description: "Let us know how we can improve.",
+    title: "反馈意见",
+    description: "让我们知道如何更好的改进。",
     icon: <MessageSquarePlus size={18} />,
     command: ({ editor, range }) => {
       editor.chain().focus().deleteRange(range).run();
@@ -27,8 +27,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Text",
-    description: "Just start typing with plain text.",
+    title: "文本",
+    description: "只需开始输入纯文本即可。",
     searchTerms: ["p", "paragraph"],
     icon: <Text size={18} />,
     command: ({ editor, range }) => {
@@ -36,8 +36,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "To-do List",
-    description: "Track tasks with a to-do list.",
+    title: "待办列表",
+    description: "使用待办事项列表跟踪任务。",
     searchTerms: ["todo", "task", "list", "check", "checkbox"],
     icon: <CheckSquare size={18} />,
     command: ({ editor, range }) => {
@@ -45,8 +45,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Heading 1",
-    description: "Big section heading.",
+    title: "大标题",
+    description: "显著标记和概括内容的重要元素",
     searchTerms: ["title", "big", "large"],
     icon: <Heading1 size={18} />,
     command: ({ editor, range }) => {
@@ -54,8 +54,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Heading 2",
-    description: "Medium section heading.",
+    title: "中标题",
+    description: "细分和组织内容",
     searchTerms: ["subtitle", "medium"],
     icon: <Heading2 size={18} />,
     command: ({ editor, range }) => {
@@ -63,8 +63,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Heading 3",
-    description: "Small section heading.",
+    title: "小标题",
+    description: "进一步细分内容",
     searchTerms: ["subtitle", "small"],
     icon: <Heading3 size={18} />,
     command: ({ editor, range }) => {
@@ -72,8 +72,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Bullet List",
-    description: "Create a simple bullet list.",
+    title: "列表",
+    description: "创建一个简单的项目列表。",
     searchTerms: ["unordered", "point"],
     icon: <List size={18} />,
     command: ({ editor, range }) => {
@@ -81,8 +81,8 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Numbered List",
-    description: "Create a list with numbering.",
+    title: "编号列表",
+    description: "创建一个有编号的项目列表。",
     searchTerms: ["ordered"],
     icon: <ListOrdered size={18} />,
     command: ({ editor, range }) => {
@@ -90,23 +90,23 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Quote",
-    description: "Capture a quote.",
+    title: "引用",
+    description: "截取引用文本",
     searchTerms: ["blockquote"],
     icon: <TextQuote size={18} />,
     command: ({ editor, range }) =>
       editor.chain().focus().deleteRange(range).toggleNode("paragraph", "paragraph").toggleBlockquote().run(),
   },
   {
-    title: "Code",
-    description: "Capture a code snippet.",
+    title: "代码",
+    description: "截取代码片段",
     searchTerms: ["codeblock"],
     icon: <Code size={18} />,
     command: ({ editor, range }) => editor.chain().focus().deleteRange(range).toggleCodeBlock().run(),
   },
   {
-    title: "Image",
-    description: "Upload an image from your computer.",
+    title: "图片",
+    description: "从电脑中上传图片",
     searchTerms: ["photo", "picture", "media"],
     icon: <ImageIcon size={18} />,
     command: ({ editor, range }) => {
@@ -126,15 +126,15 @@ export const suggestionItems = createSuggestionItems([
     },
   },
   {
-    title: "Youtube",
-    description: "Embed a Youtube video.",
+    title: "视频",
+    description: "插入一段视频",
     searchTerms: ["video", "youtube", "embed"],
     icon: <Youtube size={18} />,
     command: ({ editor, range }) => {
       const videoLink = prompt("Please enter Youtube Video Link");
       //From https://regexr.com/3dj5t
       const ytregex = new RegExp(
-        /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/,
+        /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:bilibili\.com|youtube))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?$/,
       );
 // @ts-ignore
       if (ytregex.test(videoLink)) {

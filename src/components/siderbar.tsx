@@ -15,25 +15,10 @@ const initialUser = {
 export function Sidebar({ className }) {
     const [docDisable, setDocDisable] = useState(false);
     const { pages, setSelectedChange } = useContext(PageContext);
-    // const getPage = ()=>{
-    //     // const user_json = window.localStorage.getItem('user');
-    //     // let user = initialUser;
-    //     // if (user_json !== null) {
-    //     //     user = JSON.parse(user_json);
-    //     // }
-    //     if (user.id == null) {
-    //         return;
-    //     }
-    //     Service.getListUsingPost(user).then(r => {
-    //         const newPages = r.data.pages;
-    //         setPages(newPages);
-    //     });
-    // };
 
-    // useEffect(() => {
-    //     getPage();
-    //     // console.log(user);
-    // }, [user]);
+    const handleKnowledgeBase = async () => {
+        console.log("向个人知识数据库访问...");
+    }
 
     useEffect(() => {
         // console.log(pages);
@@ -109,7 +94,7 @@ export function Sidebar({ className }) {
                         </Button>)
                         }
                         <Separator />
-                        <Button className="m-3 mb-6">对文档询问</Button>
+                        <Button className="m-3 mb-6" onClick={handleKnowledgeBase}>对文档询问</Button>
                 </nav>
         </div>
     )

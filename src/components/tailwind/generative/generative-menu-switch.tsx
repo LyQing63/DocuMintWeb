@@ -43,6 +43,15 @@ const GenerativeMenuSwitch = ({ children, open, onOpenChange }: GenerativeMenuSw
             <Magic className="h-5 w-5" />
             Ask AI
           </Button>
+            <Button
+                className="gap-1 rounded-none text-purple-500"
+                variant="ghost"
+                // onClick={() => onOpenChange(true)}
+                size="sm"
+            >
+                <Magic className="h-5 w-5" />
+                OCR
+            </Button>
           {children}
         </Fragment>
       )}

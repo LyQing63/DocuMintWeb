@@ -1,9 +1,10 @@
 import {cn} from "@/lib/utils"
 import {Button, buttonVariants} from "@/components/tailwind/ui/button"
+import * as React from "react";
 import {useContext, useEffect, useState} from "react";
 import {Accordion, AccordionContent, AccordionItem, AccordionTrigger} from "./tailwind/ui/accordion";
 import {PageContext} from "@/context/pageListContext";
-import {Separator} from "@radix-ui/react-menu";
+import KnowledgeDialog from "@/components/knowledgeDialog";
 
 
 const initialUser = {
@@ -14,10 +15,11 @@ const initialUser = {
 //@ts-ignore
 export function Sidebar({ className }) {
     const [docDisable, setDocDisable] = useState(false);
-    const { pages, setSelectedChange } = useContext(PageContext);
+    const { pages, setSelectedChange, setOpenKnowledge } = useContext(PageContext);
 
     const handleKnowledgeBase = async () => {
         console.log("向个人知识数据库访问...");
+        setOpenKnowledge(true);
     }
 
     useEffect(() => {
@@ -93,8 +95,9 @@ export function Sidebar({ className }) {
                                     Docs
                         </Button>)
                         }
-                        <Separator />
-                        <Button className="m-3 mb-6" onClick={handleKnowledgeBase}>对文档询问</Button>
+                        {/*<Separator />*/}
+                        <KnowledgeDialog />
+                        {/*<Button className="m-3 mb-6" onClick={handleKnowledgeBase}></Button>*/}
                 </nav>
         </div>
     )

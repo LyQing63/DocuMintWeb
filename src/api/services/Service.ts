@@ -2,7 +2,7 @@
 /* istanbul ignore file */
 /* tslint:disable */
 /* eslint-disable */
-import type {User, Page, UserUpateParams} from '../models/models';
+import type {User, Page, UserUpateParams, AskKnowledgeBaseParams} from '../models/models';
 import type { Result } from '../models/Result';
 import type { CancelablePromise } from '../core/CancelablePromise';
 import { OpenAPI } from '../core/OpenAPI';
@@ -262,6 +262,29 @@ export class Service {
             method: 'POST',
             url: '/user/update',
             body: userUpateParams,
+            errors: {
+                401: `Unauthorized`,
+                403: `Forbidden`,
+                404: `Not Found`,
+            },
+        });
+    }
+
+    /**
+     * 更新
+     * 传入userName、userAvatar和gender
+     * @param UserUpateParams userUpateParams
+     * @returns Result OK
+     * @returns any Created
+     * @throws ApiError
+     */
+    public static AskKnowledgeBase(
+        question :AskKnowledgeBaseParams,
+    ): CancelablePromise<Result | any> {
+        return __request(OpenAPI, {
+            method: 'POST',
+            url: '/ai/ask',
+            body: question,
             errors: {
                 401: `Unauthorized`,
                 403: `Forbidden`,

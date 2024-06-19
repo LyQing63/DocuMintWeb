@@ -57,4 +57,6 @@ export type UserUpateParams = {
     userName: string,
 };
 
-
+export type AskKnowledgeBaseParams = {
+    question: string,
+}

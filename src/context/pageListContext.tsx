@@ -9,7 +9,7 @@ export const PageDataProvider = ({ children }) => {
     const [pages, setPages] = useState([]);
     const [selectedChange, setSelectedChange] = useState(0);
     const [openDrawer, setOpenDrawer] = useState(false);
-
+    const [openKnowledge, setOpenKnowledge] = useState(false);
     // 获取数据的函数
     const getPage = (user)=>{
         // const user_json = window.localStorage.getItem('user');
@@ -27,7 +27,7 @@ export const PageDataProvider = ({ children }) => {
     };
 
     return (
-        <PageContext.Provider value={{ pages, getPage, selectedChange, setSelectedChange, openDrawer, setOpenDrawer}}>
+        <PageContext.Provider value={{ pages, getPage, selectedChange, setSelectedChange, openDrawer, setOpenDrawer, openKnowledge, setOpenKnowledge}}>
             {children}
         </PageContext.Provider>
     );

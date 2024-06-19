@@ -6,9 +6,9 @@ import type {ReactNode} from "react";
 import Providers from "./providers";
 import {Toaster} from "@/components/tailwind/ui/toaster";
 
-const title = "DocuMint：智能编辑，精雕细琢";
+const title = "DocMint：智能编辑，精雕细琢";
 const description =
-    "智能编辑新时代，DocuMint为你引路";
+    "智能编辑新时代，DocMint为你引路";
 
 export const metadata: Metadata = {
   title,

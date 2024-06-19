@@ -4,6 +4,7 @@ import * as React from "react";
 import {EditorDashboard} from "@/components/editor-dashboard";
 import PageDataProvider from "@/context/pageListContext";
 import VoiceDrawer from "@/components/voiceDrawer";
+import KnowledgeDialog from "@/components/knowledgeDialog";
 
 const initialLoginParams = {
     createTime: '',

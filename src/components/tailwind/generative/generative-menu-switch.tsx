@@ -41,7 +41,7 @@ const GenerativeMenuSwitch = ({ children, open, onOpenChange }: GenerativeMenuSw
             size="sm"
           >
             <Magic className="h-5 w-5" />
-            Ask AI
+            询问 AI
           </Button>
             <Button
                 className="gap-1 rounded-none text-purple-500"

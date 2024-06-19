@@ -78,7 +78,7 @@ export default function AvatarMenu({ user }) {
           <DropdownMenuSeparator />
           <DropdownMenuItem>
             <Settings className="mr-2 h-4 w-4" />
-            <button onClick={handleSettingRouter}>设置</button>
+            <button className="w-full text-left" onClick={handleSettingRouter}>设置</button>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <LifeBuoy className="mr-2 h-4 w-4" />

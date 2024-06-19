@@ -22,15 +22,15 @@ import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 // ];
 const appearances = [
   {
-    theme: "System",
+    theme: "系统",
     icon: <Monitor className="h-4 w-4" />,
   },
   {
-    theme: "Light",
+    theme: "明亮",
     icon: <SunDim className="h-4 w-4" />,
   },
   {
-    theme: "Dark",
+    theme: "暗黑",
     icon: <Moon className="h-4 w-4" />,
   },
 ];
@@ -68,7 +68,7 @@ export default function Menu({ className }) {
             </button>
           ))}
         </div> */}
-        <p className="p-2 text-xs font-medium text-muted-foreground">Appearance</p>
+        <p className="p-2 text-xs font-medium text-muted-foreground">主题</p>
         {appearances.map(({ theme, icon }) => (
           <Button
             variant="ghost"

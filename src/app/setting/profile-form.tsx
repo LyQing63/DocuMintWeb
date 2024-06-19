@@ -95,13 +95,12 @@ export function ProfileForm() {
                 name="userName"
                 render={({ field }) => (
                     <FormItem>
-                        <FormLabel>Username</FormLabel>
+                        <FormLabel>姓名</FormLabel>
                         <FormControl>
                             <Input placeholder="your username" {...field} />
                         </FormControl>
                         <FormDescription>
-                            This is your public display name. It can be your real name or a
-                            pseudonym. You can only change this once every 30 days.
+                            这是您的公开显示名称，它可以是您的真实姓名或笔名，您只能每 30 天更改一次。
                         </FormDescription>
                         <FormMessage />
                     </FormItem>
@@ -112,22 +111,25 @@ export function ProfileForm() {
                 name="gender"
                 render={({ field }) => (
                 <FormItem>
-                    <FormLabel>Gender</FormLabel>
+                    <FormLabel>性别</FormLabel>
                         <FormControl>
-                                <RadioGroup {...field} className="flex" onValueChange={field.onChange}>
-                                    <div className="flex items-center space-x-2">
-                                        <RadioGroupItem value="man" id="r1" />
-                                        <Label htmlFor="r1">man</Label>
-                                    </div>
-                                    <div className="flex items-center space-x-2">
-                                        <RadioGroupItem value="woman" id="r2" />
-                                        <Label htmlFor="r2">woman</Label>
-                                    </div>
-                                </RadioGroup>
+                            <RadioGroup {...field} className="flex" onValueChange={field.onChange}>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="man" id="r1"/>
+                                    <Label htmlFor="r1">男</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="woman" id="r2"/>
+                                    <Label htmlFor="r2">女</Label>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <RadioGroupItem value="other" id="r3"/>
+                                    <Label htmlFor="r3">其他</Label>
+                                </div>
+                            </RadioGroup>
                         </FormControl>
                     <FormDescription>
-                        You can manage verified email addresses in your{" "}
-                        email settings.
+                        这是您的公开显示性别，如果你不愿意透露，可以选择其他选项。
                     </FormDescription>
                     <FormMessage />
                 </FormItem>
@@ -138,9 +140,9 @@ export function ProfileForm() {
                 name="userAvatar"
                 render={({ field }) => (
                 <FormItem>
-                    <FormLabel>Avatar</FormLabel>
+                    <FormLabel>头像</FormLabel>
                     <FormControl>
-                        <Input placeholder="your avatar" {...field} />
+                        <Input placeholder="您的头像地址" {...field} />
                     </FormControl>
                     <FormDescription>
                         <Avatar className="items-center">
@@ -151,7 +153,7 @@ export function ProfileForm() {
                     <FormMessage />
                 </FormItem>
             )}
-            /><Button type="submit">Update user</Button>
+            /><Button type="submit">更新</Button>
         </form>
     </Form>
     )

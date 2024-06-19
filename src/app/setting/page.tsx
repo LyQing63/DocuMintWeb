@@ -11,10 +11,7 @@ export default function Setting() {
     return (
         <div className="space-y-6">
             <div>
-                <h3 className="text-lg font-medium">Account</h3>
-                <p className="text-sm text-muted-foreground">
-                    This is how others will see you on the site.
-                </p>
+                <h3 className="text-lg font-medium">用户</h3>
             </div>
             <Separator />
             <ProfileForm />

@@ -42,6 +42,7 @@ import {
 } from "@/components/tailwind/ui/context-menu";
 import useLocalStorage from "@/hooks/use-local-storage";
 import {EditorService} from "@/api/services/API";
+import ImageUpload from "@/components/image-upload";
 
 const extensions = [...defaultExtensions, slashCommand];
 
@@ -59,6 +60,7 @@ const TailwindAdvancedEditor = () => {
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
   const [openAI, setOpenAI] = useState(false);
+  const [openOCR, setOpenOCR] = useState(false);
   const [editorKey, setEditorKey] = useState(0);
   const [selectedPage, updateSelectedPage] = useLocalStorage('page', initialPage);
 
@@ -118,6 +120,7 @@ const TailwindAdvancedEditor = () => {
   // @ts-ignore
   return (
     <div className="relative w-full max-w-screen-lg ">
+      {openOCR && <ImageUpload />}
       <ContextMenu>
         <ContextMenuTrigger className="flex items-center rounded-md text-sm">
             <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
@@ -174,11 +177,10 @@ const TailwindAdvancedEditor = () => {
                   </EditorCommandList>
                 </EditorCommand>
 
-                <GenerativeMenuSwitch open={openAI} onOpenChange={setOpenAI}>
+                <GenerativeMenuSwitch open={openAI} onOpenChange={setOpenAI} openOCR={openOCR} onOpenOCRChange={setOpenOCR}>
                   <Separator orientation="vertical"/>
                   <NodeSelector open={openNode} onOpenChange={setOpenNode}/>
                   <Separator orientation="vertical"/>
-
                   <LinkSelector open={openLink} onOpenChange={setOpenLink}/>
                   <Separator orientation="vertical"/>
                   <TextButtons/>

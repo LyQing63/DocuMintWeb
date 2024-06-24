@@ -44,7 +44,7 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>
 const initialUser = {
     userName: "",
     gender: null,
-    userAvatar: undefined,
+    userAvatar: '',
     id: undefined,
 }
 

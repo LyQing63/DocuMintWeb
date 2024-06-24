@@ -2,13 +2,14 @@ import axios from 'axios';
 import {OpenAPI} from "@/api";
 import useLocalStorage from "@/hooks/use-local-storage";
 
-const url = 'http://47.116.168.31:8080';
-// const url = 'http://localhost:8080'
+// const url = 'https://user.lyqing.top:8080';
+const url = 'http://47.116.168.31:8080'
 export const API = { TOKEN: ''}
 
 const headers = {
     // 'Authorization': 'Bearer '+ process.env.TOKEN,
     'Content-Type': 'application/json',
+    'Origin': 'http://localhost:3000',
 }
 
 type Result = {
@@ -23,6 +24,8 @@ const request = axios.create({
     baseURL: url,
     headers: headers
 });
+
+request.defaults.withCredentials = true;
 
 type User = {
     createTime: string,
@@ -423,5 +426,13 @@ export class AiService {
         //         404: `Not Found`,
         //     },
         // });
+    }
+
+    public static OCRImage(file :File) {
+        return request.post('', file, {
+            headers: {
+                'Authorization': 'Bearer ' + process.env.TOKEN
+            }
+        });
     }
 }

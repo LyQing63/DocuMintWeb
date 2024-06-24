@@ -1,6 +1,7 @@
 // context/DataContext.js
 import React, {createContext, useState} from 'react';
 import {Service} from "@/api";
+import {EditorService} from "@/api/services/API";
 
 // 创建上下文
 export const PageContext = createContext();
@@ -20,8 +21,8 @@ export const PageDataProvider = ({ children }) => {
         if (user == null || user.id == null) {
             return;
         }
-        Service.getListUsingPost(user).then(r => {
-            const newPages = r.data.pages;
+        EditorService.getListUsingPost(user).then(r => {
+            const newPages = r.data.data.pages;
             setPages(newPages);
         });
     };

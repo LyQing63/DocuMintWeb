@@ -17,6 +17,7 @@ import {PageContext} from "@/context/pageListContext"
 import {useToast} from "@/components/tailwind/ui/use-toast";
 import {OpenAPI, Page, Service} from "@/api";
 import {Button} from "@/components/tailwind/ui/button";
+import {API, EditorService, UserService} from "@/api/services/API";
 
 interface Props {
     defaultCollapsed?: boolean
@@ -43,8 +44,8 @@ export function EditorDashboard({
         if (!user.id) {
             return;
         }
-        Service.addUsingPost(user).then(res => {
-            if (res.code === 20000) {
+        EditorService.addUsingPost(user).then(res => {
+            if (res.data.code === 20000) {
                 toast({
                     title: "添加成功",
                 });
@@ -53,7 +54,7 @@ export function EditorDashboard({
                 toast({
                     title: "添加失败",
                     variant: "destructive",
-                    description: res.message,
+                    description: res.data.message,
                 });
             }
         });
@@ -61,18 +62,16 @@ export function EditorDashboard({
 
     useEffect(() => {
         const getLoginUser = async () => {
-            // @ts-ignore
-            OpenAPI.TOKEN = token;
             // toast({
             //     variant: "destructive",
             //     title: "未登录",
             // });
-            await Service.isLoginUsingGet().then(res => {
-                const userId = res.data.id;
+            await UserService.isLoginUsingGet(token).then(res => {
+                const userId = res.data.data.id;
                 if (userId) {
                     // @ts-ignore
-                    Service.getInfoUsingGet(token).then(res => {
-                        setUser(res.data)
+                    UserService.getInfoUsingGet(token).then(res => {
+                        setUser(res.data.data)
                     });
                 }
             });

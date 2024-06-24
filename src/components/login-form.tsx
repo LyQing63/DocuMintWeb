@@ -7,12 +7,13 @@ import {Label} from "@/components/tailwind/ui/label"
 import {useImmer} from "use-immer";
 import {useRouter} from "next/navigation";
 import Link from "next/link";
-import {OpenAPI, Service} from "@/api";
+import {OpenAPI} from "@/api";
 import {User} from "@/api/index";
 import {useToast} from "@/components/tailwind/ui/use-toast";
 import Cookies from "universal-cookie";
 import {useEffect, useState} from "react";
 import useLocalStorage from "@/hooks/use-local-storage";
+import {API, UserService} from "@/api/services/API";
 
 const initialLoginParams: User = {
     createTime: '',
@@ -42,21 +43,22 @@ export function LoginForm() {
 
 
     const login = () => {
-        const res = Service.loginUsingPost(loginParams);
+        const res = UserService.loginUsingPost(loginParams);
         res.then(async r => {
-            if (r.code === 20000) {
+            if (r.data.code === 20000) {
                 toast({
                     description: "登录成功",
                 });
-                const token = r.data.token;
+                const token = r.data.data.token;
                 cookies.set("token", token);
                 setToken(token);
-                OpenAPI.TOKEN = token;
+                // API.TOKEN = token;
+                process.env.TOKEN = token;
             } else {
                 toast({
                     variant: "destructive",
                     title: "登录失败",
-                    description: r.message,
+                    description: r.data.message,
                 });
             }
         });

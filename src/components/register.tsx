@@ -8,6 +8,7 @@ import {useImmer} from "use-immer";
 import {Service} from "@/api";
 import {useRouter} from "next/navigation";
 import { useToast } from "@/components/tailwind/ui/use-toast"
+import {UserService} from "@/api/services/API";
 
 
 const initialRegisterParams = { userAccount: '', userPassword: '', checkPassword: ''};
@@ -18,9 +19,9 @@ export function RegisterForm() {
     const [registerParams, updateRegisterParams] = useImmer(initialRegisterParams);
 
     const register = () => {
-        const res = Service.registerUsingPost(registerParams);
+        const res = UserService.registerUsingPost(registerParams);
         res.then(r => {
-            if (r.code === 20000) {
+            if (r.data.code === 20000) {
                  toast({
                     title: "注册成功!",
                     description: "跳转至登录页面",
@@ -30,7 +31,7 @@ export function RegisterForm() {
                 toast({
                     variant: "destructive",
                     title: "注册失败!",
-                    description: r.message,
+                    description: r.data.message,
                 });
             }
         });

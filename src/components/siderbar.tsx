@@ -64,26 +64,29 @@ export function Sidebar({ className }) {
                                                     className="w-full justify-start font-normal"
                                                     onClick={event => handleClick(event, page)}
                                                 >
-
-                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                                         className="bi bi-text-indent-left mr-2 h-4 w-4" viewBox="0 0 16 16">
-                                                        <path
-                                                            d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm.646 2.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L4.293 8 2.646 6.354a.5.5 0 0 1 0-.708zM7 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
-                                                    </svg>
-                                                    {page.title}
+                                                    <div className='w-5 h-3'>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                             fill="currentColor"
+                                                             className="bi bi-text-indent-left mr-2 h-4 w-4"
+                                                             viewBox="0 0 16 16">
+                                                            <path
+                                                                d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm.646 2.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L4.293 8 2.646 6.354a.5.5 0 0 1 0-.708zM7 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
+                                                        </svg>
+                                                    </div>
+                                                    <span>{page.title}</span>
                                                 </Button>
                                             ))}
                                         </div>
                                     </AccordionContent>
                                 </AccordionItem>
                             </Accordion>
-                        ) : (<Button
-                                    className={cn(
-                                        buttonVariants({
-                                            size: "sm",
-                                            variant: "ghost",
-                                        }),
-                                        "justify-start",
+                    ) : (<Button
+                        className={cn(
+                            buttonVariants({
+                                size: "sm",
+                                variant: "ghost",
+                            }),
+                            "justify-start",
                                         docDisable && "cursor-not-allowed opacity-80"
                                     )}
                                 >

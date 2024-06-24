@@ -16,6 +16,7 @@ import {Avatar, AvatarFallback, AvatarImage} from "@/components/tailwind/ui/avat
 import {useToast} from "@/components/tailwind/ui/use-toast";
 import Link from "next/link";
 import useLocalStorage from "@/hooks/use-local-storage";
+import {UserService} from "@/api/services/API";
 
 const initialUser = {
   gender: null,
@@ -42,9 +43,9 @@ export default function AvatarMenu({ user }) {
   }
 
   const logout = ()=> {
-    const res = Service.logoutUsingPost();
+    const res = UserService.logoutUsingPost();
     res.then(r => {
-      if (r.code === 20000) {
+      if (r.data.code === 20000) {
         localStorage.removeItem('token');
         localStorage.removeItem('user');
         toast({
@@ -54,7 +55,7 @@ export default function AvatarMenu({ user }) {
       } else {
         toast({
           variant: "destructive",
-          description: r.message,
+          description: r.data.message,
         });
       }
     });

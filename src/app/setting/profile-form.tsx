@@ -22,6 +22,7 @@ import {Service} from "@/api";
 import {useEffect, useState} from "react";
 import useLocalStorage from "@/hooks/use-local-storage";
 import {useRouter} from "next/navigation";
+import {UserService} from "@/api/services/API";
 
 const profileFormSchema = z.object({
     userName: z
@@ -68,8 +69,8 @@ export function ProfileForm() {
 
     function onSubmit(data: ProfileFormValues) {
         const newUser = {...data, id: user.id, gender: data.gender === 'man' ? 0 : 1};
-        Service.updateUserUsingPost(newUser).then(res => {
-            if (res.code === 20000) {
+        UserService.updateUserUsingPost(newUser).then(res => {
+            if (res.data.code === 20000) {
                 toast({
                     description: (
                         <p className="font-bold">修改成功</p>
@@ -81,7 +82,7 @@ export function ProfileForm() {
             } else {
                 toast({
                     title: "修改失败",
-                    description: res.message,
+                    description: res.data.message,
                 })
             }
         });

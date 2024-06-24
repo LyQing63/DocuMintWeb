@@ -41,6 +41,7 @@ import {
   ContextMenuTrigger
 } from "@/components/tailwind/ui/context-menu";
 import useLocalStorage from "@/hooks/use-local-storage";
+import {EditorService} from "@/api/services/API";
 
 const extensions = [...defaultExtensions, slashCommand];
 
@@ -73,8 +74,10 @@ const TailwindAdvancedEditor = () => {
     // }
     selectedPage.content = JSON.stringify(json);
     if (selectedPage != null) {
-      Service.saveUsingPost(selectedPage);
+      EditorService.saveUsingPost(selectedPage);
+      window.localStorage.setItem("novel-content", JSON.stringify(json));
     }
+
     setSaveStatus("Saved");
   }, 500);
 
@@ -102,7 +105,7 @@ const TailwindAdvancedEditor = () => {
     if (selectedPage==null) {
       return;
     }
-    Service.deleteUsingPost(selectedPage);
+    EditorService.deleteUsingPost(selectedPage);
     window.location.reload();
   }
 

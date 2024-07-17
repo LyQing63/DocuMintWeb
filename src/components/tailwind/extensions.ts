@@ -13,10 +13,18 @@ import {
   UpdatedImage,
   Youtube,
 } from "novel/extensions";
-import { UploadImagesPlugin } from "novel/plugins";
+import {UploadImagesPlugin} from "novel/plugins";
+import drawIoExtension from '@rcode-link/tiptap-drawio';
+import {cx} from "class-variance-authority";
+import {common, createLowlight} from "lowlight";
+import img from "@/components/tailwind/img";
+import {Markdown} from 'tiptap-markdown';
+import {Table} from "@/app/editor/extensions/extension-table";
+import {TableCellBackground} from "@/app/editor/extensions/extension-table-cell-background";
+import {TableHeader} from "@/app/editor/extensions/extension-table-header";
+import {TableRow} from "@/app/editor/extensions/extension-table-row";
+import {TableCell} from "@/app/editor/extensions/extension-table-cell";
 
-import { cx } from "class-variance-authority";
-import { common, createLowlight } from "lowlight";
 
 //TODO I am using cx here to get tailwind autocomplete working, idk if someone else can write a regex to just capture the class key in objects
 const aiHighlight = AIHighlight;
@@ -138,4 +146,27 @@ export const defaultExtensions = [
   youtube,
   characterCount,
   GlobalDragHandle,
+  drawIoExtension.configure({
+    openDialog: 'dblclick',
+    drawIoLink: "https://embed.diagrams.net/?embed=1&ui=atlas&spin=1&modified=unsavedChanges&proto=json",
+    baseImage: img,
+  }),
+  Markdown.configure({
+    html: true,                  // Allow HTML input/output
+    tightLists: true,            // No <p> inside <li> in markdown output
+    tightListClass: 'tight',     // Add class to <ul> allowing you to remove <p> margins when tight
+    bulletListMarker: '-',       // <li> prefix in markdown output
+    linkify: false,              // Create links from "https://..." text
+    breaks: false,               // New lines (\n) in markdown input are converted to <br>
+    transformPastedText: false,  // Allow to paste markdown text in the editor
+    transformCopiedText: false,  // Copied text is transformed to markdown
+  }),
+  Table.configure({
+    resizable: true,
+    allowTableNodeSelection: true,
+  }),
+  TableHeader,
+  TableRow,
+  TableCell,
+  TableCellBackground,
 ];

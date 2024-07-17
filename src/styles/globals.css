@@ -167,3 +167,6 @@ pre {
   overflow:auto;
 }
 
+html, body {
+  height: 100%;
+}

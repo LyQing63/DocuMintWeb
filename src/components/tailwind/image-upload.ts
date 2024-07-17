@@ -2,10 +2,10 @@ import { createImageUpload } from "novel/plugins";
 import { toast } from "sonner";
 
 const onUpload = (file: File) => {
-  const promise = fetch("/api/upload", {
+  const promise = fetch("/api/file/upload", {
     method: "POST",
     headers: {
-      "content-type": file?.type || "application/octet-stream",
+      "content-type": file?.type || "multipart/form-data",
       "x-vercel-filename": file?.name || "image.png",
     },
     body: file,
@@ -47,7 +47,7 @@ const onUpload = (file: File) => {
 export const uploadFn = createImageUpload({
   onUpload,
   validateFn: (file) => {
-    if (!file.type.includes("image/")) {
+    if (!file.type.includes("img/")) {
       toast.error("File type not supported.");
       return false;
     }

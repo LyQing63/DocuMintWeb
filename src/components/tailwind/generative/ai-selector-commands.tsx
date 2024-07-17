@@ -1,3 +1,4 @@
+
 import { ArrowDownWideNarrow, CheckCheck, RefreshCcwDot, StepForward, WrapText } from "lucide-react";
 import { useEditor } from "novel";
 import { getPrevText } from "novel/utils";
@@ -6,23 +7,23 @@ import { CommandGroup, CommandItem, CommandSeparator } from "../ui/command";
 const options = [
   {
     value: "improve",
-    label: "Improve writing",
+    label: "优化句子",
     icon: RefreshCcwDot,
   },
 
   {
     value: "fix",
-    label: "Fix grammar",
+    label: "语法修正",
     icon: CheckCheck,
   },
   {
     value: "shorter",
-    label: "Make shorter",
+    label: "规范格式",
     icon: ArrowDownWideNarrow,
   },
   {
     value: "longer",
-    label: "Make longer",
+    label: "详写",
     icon: WrapText,
   },
 ];
@@ -36,7 +37,7 @@ const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
 
   return (
     <>
-      <CommandGroup heading="Edit or review selection">
+      <CommandGroup heading="编辑或审查选择">
         {options.map((option) => (
           <CommandItem
             onSelect={(value) => {
@@ -56,7 +57,7 @@ const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
         ))}
       </CommandGroup>
       <CommandSeparator />
-      <CommandGroup heading="Use AI to do more">
+      <CommandGroup heading="使用AI做更多工作">
         <CommandItem
           onSelect={() => {
             // @ts-ignore
@@ -70,7 +71,7 @@ const AISelectorCommands = ({ onSelect }: AISelectorCommandsProps) => {
           className="gap-2 px-4"
         >
           <StepForward className="h-4 w-4 text-purple-500" />
-          Continue writing
+          续写
         </CommandItem>
       </CommandGroup>
     </>

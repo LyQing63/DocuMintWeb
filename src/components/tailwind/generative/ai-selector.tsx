@@ -28,7 +28,8 @@ export function AISelector({ onOpenChange }: AISelectorProps) {
 
   const { completion, complete, isLoading } = useCompletion({
     // id: "novel",
-    api: "https://lyqing.icu/ai/generate",
+    //api: "https://lyqing.icu/ai/generate",
+    api:"http://localhost:5000/generate",
     onResponse: (response) => {
       if (response.status === 429) {
         toast.error("You have reached your request limit for the day.");
@@ -71,7 +72,7 @@ export function AISelector({ onOpenChange }: AISelectorProps) {
               value={inputValue}
               onValueChange={setInputValue}
               autoFocus
-              placeholder={hasCompletion ? "Tell AI what to do next" : "Ask AI to edit or generate..."}
+              placeholder={hasCompletion ? "Tell AI what to do next" : "告诉AI你想要什么..."}
               // @ts-ignore
               onFocus={() => addAIHighlight(editor)}
             />

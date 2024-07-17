@@ -25,26 +25,14 @@ import GenerativeMenuSwitch from "./generative/generative-menu-switch";
 import {uploadFn} from "./image-upload";
 import {TextButtons} from "./selectors/text-buttons";
 import {slashCommand, suggestionItems} from "./slash-command";
-import {Page, Service} from "@/api";
+import {Page} from "@/api";
 import {PageContext} from "@/context/pageListContext";
-import {
-  ContextMenu,
-  ContextMenuCheckboxItem,
-  ContextMenuContent,
-  ContextMenuItem,
-  ContextMenuRadioGroup,
-  ContextMenuSeparator,
-  ContextMenuShortcut,
-  ContextMenuSub,
-  ContextMenuSubContent,
-  ContextMenuSubTrigger,
-  ContextMenuTrigger
-} from "@/components/tailwind/ui/context-menu";
 import useLocalStorage from "@/hooks/use-local-storage";
 import {EditorService} from "@/api/services/API";
-import ImageUpload from "@/components/image-upload";
+import "@/app/editor/styles.scss"
+import "@/app/editor/styles-table.scss"
 
-const extensions = [...defaultExtensions, slashCommand];
+const extensions = [...defaultExtensions, slashCommand ];
 
 const initialPage: Page = {
   content: undefined,
@@ -120,9 +108,7 @@ const TailwindAdvancedEditor = () => {
   // @ts-ignore
   return (
     <div className="relative w-full max-w-screen-lg ">
-      {openOCR && <ImageUpload />}
-      <ContextMenu>
-        <ContextMenuTrigger className="flex items-center rounded-md text-sm">
+
             <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
               <div className="rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">{saveStatus}</div>
               <div className={charsCount ? "rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground" : "hidden"}>
@@ -189,52 +175,7 @@ const TailwindAdvancedEditor = () => {
                 </GenerativeMenuSwitch>
               </EditorContent>
             </EditorRoot>
-        </ContextMenuTrigger>
-        <ContextMenuContent className="w-64">
-          <ContextMenuItem inset>
-            后退
-            <ContextMenuShortcut>⌘[</ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuItem inset disabled>
-            前进
-            <ContextMenuShortcut>⌘]</ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuItem inset>
-            重新加载
-            <ContextMenuShortcut>⌘R</ContextMenuShortcut>
-          </ContextMenuItem>
-          <ContextMenuSub>
-            <ContextMenuSubTrigger inset>更多</ContextMenuSubTrigger>
-            <ContextMenuSubContent className="w-48">
-              <ContextMenuItem>
-                另存为...
-                <ContextMenuShortcut>⇧⌘S</ContextMenuShortcut>
-              </ContextMenuItem>
-              <ContextMenuItem>创建切片</ContextMenuItem>
-              <ContextMenuItem>重命名</ContextMenuItem>
-              <ContextMenuSeparator/>
-              <ContextMenuItem>开发者工具</ContextMenuItem>
-            </ContextMenuSubContent>
-          </ContextMenuSub>
-          <ContextMenuSeparator/>
-          <ContextMenuCheckboxItem checked>
-            展开书签页
-            <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>
-          </ContextMenuCheckboxItem>
-          <ContextMenuSeparator/>
-          <ContextMenuRadioGroup>
-            <ContextMenuItem onClick={() => deletePage()} inset>
-              删除
-              <ContextMenuShortcut>delete</ContextMenuShortcut>
-            </ContextMenuItem>
-            <ContextMenuSeparator/>
-            <ContextMenuItem  onClick={handleVoiceInput} inset>
-              语音输入
-              <ContextMenuShortcut>⌘I</ContextMenuShortcut>
-            </ContextMenuItem>
-          </ContextMenuRadioGroup>
-        </ContextMenuContent>
-      </ContextMenu>
+
     </div>
   );
 };

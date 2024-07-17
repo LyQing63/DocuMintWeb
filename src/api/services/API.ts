@@ -2,8 +2,8 @@ import axios from 'axios';
 import {OpenAPI} from "@/api";
 import useLocalStorage from "@/hooks/use-local-storage";
 
-// const url = 'https://user.lyqing.top:8080';
-const url = 'http://47.116.168.31:8080'
+// const url = 'http://localhost:8080';
+const url = 'http://47.116.168.31:8080';
 export const API = { TOKEN: ''}
 
 const headers = {
@@ -166,6 +166,7 @@ export class UserService {
      * @returns any Created
      * @throws ApiError
      */
+
     public static loginUsingPost(user: User){
         return request.post('/user/login', user);
         // return __request(OpenAPI, {
@@ -179,6 +180,7 @@ export class UserService {
         //     },
         // });
     }
+
     /**
      * 登出
      * @returns Result OK
@@ -306,9 +308,9 @@ export class UserService {
 }
 export class EditorService {
 
-    public static addUsingPost(user: User) {
+    public static addUsingPost(user: User, type: string) {
 
-        return request.post('/editor/add', user, {
+        return request.post('/editor/add', {user: user, type: type}, {
             headers: {
                 'Authorization': 'Bearer '+ process.env.TOKEN
             }
@@ -428,11 +430,15 @@ export class AiService {
         // });
     }
 
-    public static OCRImage(file :File) {
-        return request.post('', file, {
+
+    public static FileUpload(file: File) {
+
+        return request.post('/file/upload', {file: file}, {
             headers: {
-                'Authorization': 'Bearer ' + process.env.TOKEN
-            }
+                'Authorization': 'Bearer ' + process.env.TOKEN,
+                'Content-Type': 'multipart/form-data'
+            },
+            timeout: 6000
         });
     }
 }

@@ -39,6 +39,7 @@ export function EditorDashboard({
     const { getPage } = useContext(PageContext);
     const [answer, setAnswer] = useState('');
     const [question, setQuestion] = useState('');
+    const [isVisible, setIsVisible] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -74,6 +75,25 @@ export function EditorDashboard({
             getPage(user);
         }
     }, [user]);
+
+    useEffect(() => {
+        const handleMouseMove = (event) => {
+            const { clientY } = event;
+            const windowHeight = window.innerHeight;
+            if (clientY > windowHeight * 4 / 5) {
+                setIsVisible(true);
+            } else {
+                setIsVisible(false);
+            }
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+
+        return () => {
+            window.removeEventListener('mousemove', handleMouseMove);
+        };
+    }, []);
+
 
     return (
         <TooltipProvider delayDuration={0}>
@@ -132,7 +152,7 @@ export function EditorDashboard({
                     </AddButton>
                 </ResizablePanel>
             </ResizablePanelGroup>
-            <div className="fixed bottom-0 left-1/4 absolute w-1/2 flex justify-center items-center pb-4">
+            <div className={`fixed bottom-0 left-1/4 w-1/2 flex justify-center items-center pb-4 transition-transform duration-300 ease-in-out ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}>
 
                 <NavigationMenuDemo /> {/* Add NavigationMenuDemo here */}
 

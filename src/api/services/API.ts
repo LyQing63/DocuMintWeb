@@ -1,9 +1,10 @@
 import axios from 'axios';
 import {OpenAPI} from "@/api";
-import useLocalStorage from "@/hooks/use-local-storage";
 
 // const url = 'http://localhost:8080';
-const url = 'http://47.116.168.31:8080';
+// const url = 'http://47.116.168.31:8080';
+const url = '';
+const aiUrl = 'http://localhost:5000';
 export const API = { TOKEN: ''}
 
 const headers = {
@@ -22,6 +23,11 @@ type Result = {
 
 const request = axios.create({
     baseURL: url,
+    headers: headers
+});
+
+const aiRequest = axios.create({
+    baseURL: aiUrl,
     headers: headers
 });
 
@@ -413,7 +419,7 @@ export class AiService {
      * @throws ApiError
      */
     public static AskKnowledgeBase(question :AskKnowledgeBaseParams) {
-        return request.post('/ai/ask', question, {
+        return aiRequest.post('/ai/ask', question, {
             headers: {
                 'Authorization': 'Bearer '+ process.env.TOKEN
             }
@@ -439,6 +445,14 @@ export class AiService {
                 'Content-Type': 'multipart/form-data'
             },
             timeout: 6000
+        });
+    }
+
+    public static Ask(question) {
+        return aiRequest.post('/ask', {'question': question}, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
         });
     }
 }

@@ -1,16 +1,16 @@
 {
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "http://47.116.168.31:8080/$1"
+      "source": "/file/(.*)",
+      "destination": "http://47.116.168.31:8080/file/$1"
     },
     {
-      "src": "/ai/generate",
-      "dest": "https://fez7cag5adt5q0h5.aistudio-hub.baidu.com/generate"
+      "source": "/editor/(.*)",
+      "destination": "http://47.116.168.31:8080/editor/$1"
     },
     {
-      "src": "/ai/ask",
-      "dest": ""
+      "source": "/user/(.*)",
+      "destination": "http://47.116.168.31:8080/user/$1"
     }
   ]
 }

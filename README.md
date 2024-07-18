@@ -9,7 +9,7 @@
 
 <div align="center">
     <a href="https://github.com/LyQing63/DocMintWeb"><img src="https://img.shields.io/badge/github-项目地址-yellow.svg?style=plasticr"></a>
-    <a href="https://github.com/LyQing63/DocMint"><img src="https://img.shields.io/badge/后端-项目地址-blueviolet.svg?style=plasticr"></a>
+    <a href="https://github.com/LyQing63/DocuMint"><img src="https://img.shields.io/badge/后端-项目地址-blueviolet.svg?style=plasticr"></a>
     <a href="https://github.com/LyQing63/DocMintWeb/commits" target="_blank"><br>
     <a href="https://github.com/LyQing63/DocMintWeb/commits" target="_blank">
         <img alt="Commit" src="https://img.shields.io/github/commit-activity/m/LyQing63/DocMintWeb"></a>
@@ -47,7 +47,7 @@ DocMint是一个智能编辑器项目，大部分的web后端业务采用Java，
 
 #### 后端技术
 
-见 [DocMint](https://github.com/LyQing63/DocMint#后端技术)
+见 [DocMint](https://github.com/LyQing63/DocuMint#后端技术)
 
 ### 项目启动
 ```bash

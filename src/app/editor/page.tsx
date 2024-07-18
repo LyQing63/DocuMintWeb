@@ -6,23 +6,71 @@ import { EditorDashboard } from "@/components/editor-dashboard";
 import PageDataProvider from "@/context/pageListContext";
 import VoiceDrawer from "@/components/voiceDrawer";
 import KnowledgeDialog from "@/components/knowledgeDialog";
+import {driver} from "driver.js";
+import "driver.js/dist/driver.css";
+import useLocalStorage from "@/hooks/use-local-storage";
+import {UserService} from "@/api/services/API";
 
-const initialLoginParams = {
-    createTime: '',
-    gender: undefined,
-    id: undefined,
-    isVip: undefined,
-    updateTime: '',
-    userAccount: '',
-    userAvatar: '',
-    userName: '',
-    userRole: '',
-};
 
 export default function Page() {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     const [isKnowledgeDialogOpen, setIsKnowledgeDialogOpen] = useState(false);
+    const [user, setUser] = useLocalStorage('user', {});
+    const [token, setToken] = useLocalStorage('token', "");
 
+    const driverObj = driver({
+        showProgress: true,
+        steps: [
+            { popover: { title: '0.开始', description: '欢迎使用Docmint——属于你的文字编辑工具！现在我将带你一步步了解这里~' } },
+            { element: '.editor', popover: { title: '1.中间文字编辑页', description: '这是你的文字编辑空间，你可以在这里完成任何编辑工作' } },
+            { element: '.left-sidebar', popover: { title: '2.左侧栏', description: '“你的文档将收纳在这里”' } },
+            { element: '.knowledge', popover: {title: '3.左侧知识库', description: '这里是你的知识库，鼠标移至左侧，点击这个按钮，开始和你的所有文档聊天', side: "top"} },
+            { element: '.question', popover: { title: '4.下侧问答框', description: '所有工具会集成在这里，以及我们的开发文档，你也可以在这里和AI聊天' } },
+            { element: '.search', popover: { title: '5.右侧侧栏', description: '点击这里，开始AI搜索，用你最熟悉的方式来浏览互联网吧！' } },
+            { element: '.add',
+                popover: {
+                    title: '6.加号',
+                    description: '现在，点击加号，选择一个模板，开始你的第一个文档~',
+                    onNextClick: element => {
+                        const newUser = user
+                        newUser.isNew = 0
+                        setUser(newUser)
+                        const updateUser = {
+                            id: newUser.id,
+                            userName: newUser.userName,
+                            userAvatar: newUser.userAvatar,
+                            gender: newUser.gender,
+                            userEmail: newUser.userEmail,
+                            isNew: newUser.isNew
+                        }
+                        UserService.updateUserUsingPost(updateUser)
+                        driverObj.moveNext();
+                    } } },
+        ]
+    });
+
+    useEffect(() => {
+        const getLoginUser = async () => {
+            await UserService.isLoginUsingGet(token).then(res => {
+                const userId = res.data.data.id;
+                if (userId) {
+                    // @ts-ignore
+                    UserService.getInfoUsingGet(token).then(res => {
+                        setUser(res.data.data)
+                    });
+                }
+            });
+        };
+
+        getLoginUser();
+    }, [token]);
+
+    useEffect(() => {
+        console.log(user)
+        if (user.isNew) {
+            driverObj.drive()
+        }
+    }, [user]);
 
     const toggleSidebar = () => {
         setIsSidebarOpen(!isSidebarOpen);
@@ -48,7 +96,7 @@ export default function Page() {
         <div className="relative hidden md:flex h-screen">
             <PageDataProvider>
                 <div className={`transition-all duration-300 ${isSidebarOpen ? 'mr-64' : 'mr-0'} flex-grow`}>
-                    <EditorDashboard navCollapsedSize={4}/>
+                    <EditorDashboard user={user} navCollapsedSize={4}/>
                 </div>
                 <VoiceDrawer/>
             </PageDataProvider>
@@ -58,7 +106,7 @@ export default function Page() {
             </div>
             <button
                 onClick={toggleSidebar}
-                className="fixed top-1/2 right-0 transform -translate-y-1/2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-l-full shadow-lg transition-transform duration-300"
+                className="search fixed top-1/2 right-0 transform -translate-y-1/2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-l-full shadow-lg transition-transform duration-300"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                      className="bi bi-caret-left" viewBox="0 0 16 16">
@@ -68,7 +116,7 @@ export default function Page() {
                 <span className="sr-only">Toggle Sidebar</span>
             </button>
             <div
-                className={`fixed bottom-0 left-0 transition-transform duration-300 ${isKnowledgeDialogOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+                className={`knowledge fixed bottom-0 left-0 transition-transform duration-300 ${isKnowledgeDialogOpen ? 'translate-x-0' : '-translate-x-full'}`}>
                 <KnowledgeDialog/>
             </div>
         </div>

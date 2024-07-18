@@ -237,7 +237,7 @@ export default function Sidebar({ user }) {
 
     // @ts-ignore
     return (
-        <div className="flex flex-col w-full max-w-3xl mx-auto h-auto ">
+        <div className="left-sidebar flex flex-col w-full max-w-3xl mx-auto h-auto ">
             <Collapsible className="rounded-lg overflow-hidden" open={pageOpen} onOpenChange={setPageOpen}>
                 <CollapsibleTrigger
                     className="flex w-full items-center justify-between font-medium px-6 py-4 hover:bg-primary/10 hover:border-primary">

@@ -12,7 +12,7 @@ import {Skeleton} from "./tailwind/ui/skeleton";
 import useLocalStorage from "@/hooks/use-local-storage";
 import {PageContext} from "@/context/pageListContext";
 import {useToast} from "@/components/tailwind/ui/use-toast";
-import {Page} from "@/api";
+import {Page, User} from "@/api";
 import {UserService} from "@/api/services/API";
 import NavigationMenuDemo from '@/components/tailwind/ui/NavigationMenuDemo';
 import AddButton from "@/components/AddButton"; // Adjust the import path as necessary
@@ -20,6 +20,7 @@ import AddButton from "@/components/AddButton"; // Adjust the import path as nec
 interface Props {
     defaultCollapsed?: boolean;
     navCollapsedSize: number;
+    user: unknown
 }
 
 const initialValue: Page[] = [];
@@ -32,10 +33,11 @@ const initialUser = {
 };
 
 export function EditorDashboard({
+    user,
     navCollapsedSize = 20,
 }: Props) {
-    const [token, setToken] = useLocalStorage('token', "");
-    const [user, setUser] = useLocalStorage('user', {});
+
+
     const { toast } = useToast();
     const { getPage } = useContext(PageContext);
     const [answer, setAnswer] = useState('');
@@ -54,22 +56,6 @@ export function EditorDashboard({
         const data = await response.json();
         setAnswer(data.answer);
     };
-
-    useEffect(() => {
-        const getLoginUser = async () => {
-            await UserService.isLoginUsingGet(token).then(res => {
-                const userId = res.data.data.id;
-                if (userId) {
-                    // @ts-ignore
-                    UserService.getInfoUsingGet(token).then(res => {
-                        setUser(res.data.data)
-                    });
-                }
-            });
-        };
-
-        getLoginUser();
-    }, [token]);
 
     useEffect(() => {
         if (user) {
@@ -143,7 +129,7 @@ export function EditorDashboard({
                     <div className="flex h-full flex-col items-center gap-4 py-4 sm:px-5">
                         <TailwindAdvancedEditor />
                     </div>
-                    <AddButton user={user} className="absolute rounded-full bg-gray-100 hover:bg-gray-200 shadow-xl top-4 right-8 w-12 h-12">
+                    <AddButton user={user} className="add absolute rounded-full bg-gray-100 hover:bg-gray-200 shadow-xl top-4 right-8 w-12 h-12">
                         <svg className="icon" viewBox="0 0 1024 1024" version="1.1"
                             xmlns="http://www.w3.org/2000/svg" p-id="847" width="128" height="128">
                             <path

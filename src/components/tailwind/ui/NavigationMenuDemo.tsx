@@ -11,7 +11,7 @@ const NavigationMenuDemo = () => {
 
 
   return (
-      <NavigationMenuRoot className="mr-0">
+      <NavigationMenuRoot className="question mr-0">
         <ImageUpload openOCR={openOCR} setOpenOCR={setOpenOCR} />
         <NavigationMenuList>
           <NavigationMenu.Item>

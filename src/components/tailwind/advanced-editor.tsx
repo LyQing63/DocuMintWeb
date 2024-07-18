@@ -42,7 +42,7 @@ const initialPage: Page = {
 const TailwindAdvancedEditor = () => {
   const { selectedChange, setSelectedChange, setOpenDrawer } = useContext(PageContext);
   const [initialContent, setInitialContent] = useState<null | JSONContent>(null);
-  const [saveStatus, setSaveStatus] = useState("Saved");
+  const [saveStatus, setSaveStatus] = useState("已保存");
   const [charsCount, setCharsCount] = useState();
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
@@ -68,7 +68,7 @@ const TailwindAdvancedEditor = () => {
       window.localStorage.setItem("novel-content", JSON.stringify(json));
     }
 
-    setSaveStatus("Saved");
+    setSaveStatus("已保存");
   }, 500);
 
   useEffect(() => {
@@ -134,7 +134,7 @@ const TailwindAdvancedEditor = () => {
                   }}
                   onUpdate={({editor}) => {
                     debouncedUpdates(editor);
-                    setSaveStatus("Unsaved");
+                    setSaveStatus("未保存");
                   }}
                   slotAfter={<ImageResizer/>}
               >

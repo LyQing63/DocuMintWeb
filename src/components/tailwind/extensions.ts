@@ -144,7 +144,7 @@ export const defaultExtensions = [
   aiHighlight,
   codeBlockLowlight,
   youtube,
-  characterCount,
+  // characterCount,
   GlobalDragHandle,
   drawIoExtension.configure({
     openDialog: 'dblclick',

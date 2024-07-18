@@ -27,7 +27,8 @@ const initialUser = {
     gender: null,
     id: undefined,
     userAvatar: undefined,
-    userName: undefined
+    userName: undefined,
+    isNew: undefined
 };
 
 export function EditorDashboard({

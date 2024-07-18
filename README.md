@@ -4,29 +4,29 @@
     </a>
 </p>
 
-<h1 align="center">DocuMint</h1>
+<h1 align="center">DocMint</h1>
 <p align="center"><strong>一个智能编辑器，满足你对编辑器的所有需求~</strong></p>
 
 <div align="center">
-    <a href="https://github.com/LyQing63/DocuMintWeb"><img src="https://img.shields.io/badge/github-项目地址-yellow.svg?style=plasticr"></a>
-    <a href="https://github.com/LyQing63/DocuMint"><img src="https://img.shields.io/badge/后端-项目地址-blueviolet.svg?style=plasticr"></a>
-    <a href="https://github.com/LyQing63/DocuMintWeb/commits" target="_blank"><br>
-    <a href="https://github.com/LyQing63/DocuMintWeb/commits" target="_blank">
-        <img alt="Commit" src="https://img.shields.io/github/commit-activity/m/LyQing63/DocuMintWeb"></a>
-    <a href="https://github.com/LyQing63/DocuMintWeb/issues" target="_blank">
-        <img alt="Issues" src="https://img.shields.io/github/issues/LyQing63/DocuMintWeb">
+    <a href="https://github.com/LyQing63/DocMintWeb"><img src="https://img.shields.io/badge/github-项目地址-yellow.svg?style=plasticr"></a>
+    <a href="https://github.com/LyQing63/DocMint"><img src="https://img.shields.io/badge/后端-项目地址-blueviolet.svg?style=plasticr"></a>
+    <a href="https://github.com/LyQing63/DocMintWeb/commits" target="_blank"><br>
+    <a href="https://github.com/LyQing63/DocMintWeb/commits" target="_blank">
+        <img alt="Commit" src="https://img.shields.io/github/commit-activity/m/LyQing63/DocMintWeb"></a>
+    <a href="https://github.com/LyQing63/DocMintWeb/issues" target="_blank">
+        <img alt="Issues" src="https://img.shields.io/github/issues/LyQing63/DocMintWeb">
     </a> 
-    <a href="https://github.com/LyQing63/DocuMintWeb/blob/master/LICENSE" target="_blank">
+    <a href="https://github.com/LyQing63/DocMintWeb/blob/master/LICENSE" target="_blank">
         <img alt="License: Apache-2.0" src="https://img.shields.io/badge/License-Apache--2.0-blue.svg">
     </a> 
-    <a href="https://github.com/LyQing63/DocuMintWeb/stargazers" target="_blank">
-        <img alt="License" src="https://img.shields.io/github/stars/LyQing63/DocuMintWeb.svg?style=social">
+    <a href="https://github.com/LyQing63/DocMintWeb/stargazers" target="_blank">
+        <img alt="License" src="https://img.shields.io/github/stars/LyQing63/DocMintWeb.svg?style=social">
     </a>
 </div>
 
 ## 项目介绍
 
-DocuMint是一个智能编辑器项目，大部分的web后端业务采用Java，OCR以及LLM2部署在Flask框架下。
+DocMint是一个智能编辑器项目，大部分的web后端业务采用Java，OCR以及LLM2部署在Flask框架下。
 该项目拥有基础的登录注册等功能，并内嵌LLM2模型以及OCR，使得在编辑的过程中可以使用图片输入以、ai补全、ai优化结构等功能
 
 
@@ -47,7 +47,7 @@ DocuMint是一个智能编辑器项目，大部分的web后端业务采用Java�
 
 #### 后端技术
 
-见 [DocuMint](https://github.com/LyQing63/DocuMint#后端技术)
+见 [DocMint](https://github.com/LyQing63/DocMint#后端技术)
 
 ### 项目启动
 ```bash

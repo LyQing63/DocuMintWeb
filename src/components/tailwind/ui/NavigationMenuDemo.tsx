@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import { styled, keyframes } from '@stitches/react';
 import { CaretDownIcon } from '@radix-ui/react-icons';
@@ -6,9 +6,8 @@ import { violet, mauve, indigo, purple, blackA } from '@radix-ui/colors';
 import ImageUpload from '@/components/image-upload';
 import SearchBar from './searchbar'; // Adjust the import path as necessary
 
-const NavigationMenuDemo = () => {
+const NavigationMenuDemo = ({ setAnswer }) => {
   const [openOCR, setOpenOCR] = useState(false);
-
 
   return (
       <NavigationMenuRoot className="question mr-0">
@@ -83,7 +82,7 @@ const NavigationMenuDemo = () => {
           <NavigationMenuViewport />
         </ViewportPosition>
 
-        <SearchBar/>
+        <SearchBar setAnswer={setAnswer} />
       </NavigationMenuRoot>
   );
 };

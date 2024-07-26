@@ -141,7 +141,7 @@ export function EditorDashboard({
             </ResizablePanelGroup>
             <div className={`fixed bottom-0 left-1/4 w-1/2 flex justify-center items-center pb-4 transition-transform duration-300 ease-in-out ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}>
 
-                <NavigationMenuDemo /> {/* Add NavigationMenuDemo here */}
+                <NavigationMenuDemo setAnswer={setAnswer} />
 
             </div>
         </TooltipProvider>

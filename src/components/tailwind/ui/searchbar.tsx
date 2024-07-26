@@ -14,7 +14,7 @@ const SearchBar = ({ setAnswer }) => {
     const sendInterval = useRef(null);
 
     useEffect(() => {
-        socket.current = io('http://localhost:5000');
+        socket.current = io('');
 
         socket.current.on('connect', () => {
             console.log('Connected to server');

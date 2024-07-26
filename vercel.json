@@ -21,8 +21,8 @@
       "destination": "http://47.116.168.31:8000/ask"
     },
     {
-      "source": "/ocr",
-      "destination": "http://47.116.168.31:8080/ocr"
+      "source": "/OCR",
+      "destination": "http://47.116.168.31:8080/OCR"
     },
     {
       "source": "/generate",

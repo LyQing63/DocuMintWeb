@@ -477,7 +477,7 @@ export class AiService {
 
   public static OCRImage(file: File) {
     return aiRequest.post(
-      "/ocr",
+      "/OCR",
       { data: file },
       {
         headers: {

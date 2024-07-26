@@ -4,13 +4,14 @@ import { OpenAPI } from "@/api";
 // const url = 'http://localhost:8080';
 // const url = 'http://47.116.168.31:8080';
 const url = "";
-const aiUrl = "http://localhost:5000";
+// const aiUrl = "http://61.139.65.143:12705";
+// const aiUrl = "https://fez7cag5adt5q0h5.aistudio-hub.baidu.com";
+const aiUrl = ""
 export const API = { TOKEN: "" };
 
 const headers = {
   // 'Authorization': 'Bearer '+ process.env.TOKEN,
   "Content-Type": "application/json",
-  Origin: "http://localhost:3000",
 };
 
 type Result = {
@@ -406,6 +407,31 @@ export class EditorService {
     //     },
     // });
   }
+
+  public static deleteTobin(page: Page) {
+    return request.post("/editor/delete_bin", {page: page}, {
+      headers: {
+        Authorization: "Bearer " + process.env.TOKEN,
+      },
+    });
+  }
+
+  public static addToRecent(page: Page) {
+    return request.post("/editor/add_recent", {userId: page.userId, pageId: page.id}, {
+      headers: {
+        Authorization: "Bearer " + process.env.TOKEN,
+      },
+    });
+  }
+
+  public static getRecent(userId: number) {
+    return request.post("/editor/get_recent", {userId: userId}, {
+      headers: {
+        Authorization: "Bearer " + process.env.TOKEN,
+      },
+    });
+  }
+
 }
 
 export class AiService {
@@ -451,7 +477,7 @@ export class AiService {
 
   public static OCRImage(file: File) {
     return aiRequest.post(
-      "/OCR",
+      "/ocr",
       { data: file },
       {
         headers: {
@@ -472,6 +498,45 @@ export class AiService {
           "Content-Type": "application/json",
         },
       }
+    );
+  }
+}
+
+export class StarService {
+
+  public static addStars(page: Page) {
+    return request.post(
+        "/star/add",
+        {page: page},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+    );
+  }
+
+  public static getStars(userId: number) {
+    return request.post(
+        "/star/get",
+        {userId: userId},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+    );
+  }
+
+  public static deleteStars(page: Page) {
+    return request.post(
+        "/star/delete",
+        {page: page},
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
     );
   }
 }

@@ -2,162 +2,12 @@ import {Button} from "@/components/tailwind/ui/button"
 import * as React from "react";
 import {useContext, useEffect, useRef, useState} from "react";
 import {PageContext} from "@/context/pageListContext";
-import {EditorService, Page} from "@/api/services/API";
+import {EditorService, Page, StarService} from "@/api/services/API";
 import {useToast} from "@/components/tailwind/ui/use-toast";
 import {Collapsible, CollapsibleContent, CollapsibleTrigger} from "@/components/tailwind/ui/collapsible"
 import {Separator} from "@/components/tailwind/ui/separator";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "./tailwind/ui/dropdown-menu";
 import {ChevronDown, ChevronLeft, CircleEllipsis} from "lucide-react";
-
-const initialUser = {
-    gender: null,
-    id: undefined,
-    userAvatar: undefined,
-}
-//@ts-ignore
-// export function Sidebar({ className }) {
-//     const [docDisable, setDocDisable] = useState(false);
-//     const { pages, setSelectedChange, setOpenKnowledge } = useContext(PageContext);
-//     const {toast} = useToast();
-//
-//     useEffect(() => {
-//         // console.log(pages);
-//     }, [pages])
-//
-//     //@ts-ignore
-//     const handleClick = (event, page) => {
-//         window.localStorage.setItem("novel-content", page.content);
-//         window.localStorage.setItem("page", JSON.stringify(page));
-//         setSelectedChange(1);
-//     }
-//
-//     const handleDelete = (page: Page) => {
-//        EditorService.deleteUsingPost(page).then((res) => {
-//            toast({
-//                description: "删除成功！",
-//            })
-//            window.location.reload();
-//        })
-//     }
-//
-//     return (
-//         <div className={cn("pb-12", className)}>
-//                 <nav className="flex flex-col gap-6 h-full justify-between">
-//                     {pages ? (
-//                             <Accordion type="single" collapsible defaultValue="Docs">
-//                                 <AccordionItem value="Docs" className="border-b-0">
-//                                     <AccordionTrigger
-//                                         className={cn(
-//                                             buttonVariants({
-//                                                 size: "sm",
-//                                                 variant: "ghost",
-//                                             }),
-//                                             "justify-between",
-//                                             docDisable && "cursor-not-allowed opacity-80",
-//                                             "shadow-inner"
-//                                         )}
-//                                     >
-//                                         <div className="flex items-center justify-start">
-//                                             <svg t="1720431361126" className="icon" viewBox="0 0 1024 1024"
-//                                                  version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="4584" width="16"
-//                                                  height="16">
-//                                                 <path
-//                                                     d="M962.624 992 61.44 992C27.52 992 0 964.032 0 929.408L0 632c0.576 0 1.024 0 1.6 0L180.224 32l663.552 0 178.624 600c0.576 0 1.088 0 1.536 0l0 297.408C1024 964.032 996.48 992 962.624 992zM765.44 94.656 256 94.656 104.96 616.384l174.08 0 98.944 187.456L640 803.84l94.72-187.456 187.776 0L765.44 94.656zM256.896 491.136l510.208 0 11.712 41.728L245.248 532.864 256.896 491.136zM286.144 386.816l451.776 0 11.712 41.728L274.496 428.544 286.144 386.816zM315.392 282.432l393.28 0 11.712 41.728-416.64 0L315.392 282.432zM344.576 178.112l334.848 0 11.712 41.728L332.864 219.84 344.576 178.112z"
-//                                                     fill="#040000" p-id="4585"></path>
-//                                             </svg>
-//                                             <h2 className="relative px-1 text-lg font-semibold tracking-tight">
-//                                                 目录
-//                                             </h2>
-//                                         </div>
-//                                     </AccordionTrigger>
-//                                     <AccordionContent>
-//                                         <div className="ml-2 flex flex-col space-y-1">
-//                                             {pages?.map((page, i) => (
-//                                                 <div className="flex w-full shrink-0 justify-center items-center"
-//                                                      key={`${page}-${i}`}>
-//                                                     <Button
-//                                                         variant="ghost"
-//                                                         className="w-4/5 justify-start font-normal"
-//                                                         onClick={event => handleClick(event, page)}
-//                                                     >
-//                                                         <div className='w-5 h-3'>
-//                                                             <svg xmlns="http://www.w3.org/2000/svg" width="16"
-//                                                                  height="16"
-//                                                                  fill="currentColor"
-//                                                                  className="bi bi-text-indent-left mr-2 h-4 w-4"
-//                                                                  viewBox="0 0 16 16">
-//                                                                 <path
-//                                                                     d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm.646 2.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L4.293 8 2.646 6.354a.5.5 0 0 1 0-.708zM7 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
-//                                                             </svg>
-//                                                         </div>
-//                                                         <span className="truncate ...">{page.title}</span>
-//                                                     </Button>
-//                                                     <Popover>
-//                                                         <PopoverTrigger>
-//                                                             <button
-//                                                                 className="w-6 h-6 hover:bg-gray-200 rounded-lg shadow-md flex items-center justify-center">
-//                                                                 <svg t="1720432947460" className="icon"
-//                                                                      viewBox="0 0 1024 1024" version="1.1"
-//                                                                      xmlns="http://www.w3.org/2000/svg" p-id="7623"
-//                                                                      width="16" height="16">
-//                                                                     <path
-//                                                                         d="M64 512c0-31.44 10.92-58.07 32.75-79.91 21.83-21.83 48.47-32.75 79.9-32.75 31.44 0 58.08 10.92 79.91 32.75s32.75 48.47 32.75 79.91-10.92 58.07-32.75 79.91c-21.83 21.83-48.47 32.75-79.91 32.75-31.44 0-58.07-10.91-79.9-32.75C74.92 570.07 64 543.44 64 512z m335.35 0c0-31.44 10.91-58.07 32.75-79.91 21.83-21.83 48.47-32.75 79.91-32.75 31.44 0 58.07 10.92 79.91 32.75 21.83 21.83 32.75 48.47 32.75 79.91s-10.92 58.07-32.75 79.91c-21.83 21.83-48.47 32.75-79.91 32.75-31.44 0-58.07-10.91-79.91-32.75-21.84-21.84-32.75-48.47-32.75-79.91z m335.34 0c0-31.44 10.92-58.07 32.75-79.91 21.83-21.83 48.47-32.75 79.91-32.75s58.07 10.92 79.91 32.75C949.09 453.93 960 480.56 960 512s-10.91 58.07-32.75 79.91-48.47 32.75-79.91 32.75-58.07-10.91-79.91-32.75c-21.82-21.84-32.74-48.47-32.74-79.91z"
-//                                                                         p-id="7624"></path>
-//                                                                 </svg>
-//                                                             </button>
-//                                                         </PopoverTrigger>
-//                                                         <PopoverContent
-//                                                             className="flex-col w-10 items-center justify-center">
-//                                                             <div>
-//                                                                 <button
-//                                                                     className="w-6 h-6 -ml-2 hover:bg-red-500 rounded-lg flex items-center justify-center shadow-md"
-//                                                                     onClick={() => handleDelete(page)}
-//                                                                 >
-//                                                                     <svg t="1720429466260" className="icon"
-//                                                                          viewBox="0 0 1024 1024"
-//                                                                          version="1.1"
-//                                                                          xmlns="http://www.w3.org/2000/svg"
-//                                                                          p-id="2665" width="16" height="16">
-//                                                                         <path
-//                                                                             d="M853.333333 192v42.666667a21.333333 21.333333 0 0 1-21.333333 21.333333h-640a21.333333 21.333333 0 0 1-21.333333-21.333333v-42.666667a21.333333 21.333333 0 0 1 21.333333-21.333333H384V128a42.666667 42.666667 0 0 1 42.666667-42.666667h170.666666a42.666667 42.666667 0 0 1 42.666667 42.666667v42.666667h192a21.333333 21.333333 0 0 1 21.333333 21.333333zM250.453333 859.306667a85.333333 85.333333 0 0 0 85.333334 79.36h353.28a85.333333 85.333333 0 0 0 85.333333-79.36L810.666667 341.333333H213.333333z"
-//                                                                             p-id="2666"></path>
-//                                                                     </svg>
-//                                                                 </button>
-//                                                             </div>
-//                                                         </PopoverContent>
-//                                                     </Popover>
-//
-//                                                 </div>
-//                                             ))}
-//                                         </div>
-//                                     </AccordionContent>
-//                                 </AccordionItem>
-//                             </Accordion>
-//                     ) : (<Button
-//                         className={cn(
-//                             buttonVariants({
-//                                 size: "sm",
-//                                 variant: "ghost",
-//                             }),
-//                             "justify-start",
-//                             docDisable && "cursor-not-allowed opacity-80"
-//                         )}
-//                     >
-//                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-//                              className="bi bi-text-indent-left mr-2 h-4 w-4" viewBox="0 0 16 16">
-//                             <path
-//                                 d="M2 3.5a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5zm.646 2.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1 0 .708l-2 2a.5.5 0 0 1-.708-.708L4.293 8 2.646 6.354a.5.5 0 0 1 0-.708zM7 6.5a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm0 3a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 0 1h-6a.5.5 0 0 1-.5-.5zm-5 3a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 0 1h-11a.5.5 0 0 1-.5-.5z"/>
-//                         </svg>
-//                         目录
-//                     </Button>)
-//                     }
-//                     {/*<Separator />*/}
-//                     <KnowledgeDialog/>
-//                     {/*<Button className="m-3 mb-6" onClick={handleKnowledgeBase}></Button>*/}
-//                 </nav>
-//         </div>
-//     )
-// }
 
 /**
  * v0 by Vercel.
@@ -178,6 +28,9 @@ export default function Sidebar({ user }) {
     const [renameId, setRenameId] = useState(null);
     const inputRef = useRef(null);
     const [renameValue, setRenameValue] = useState("");
+    const [stars, setStars] = useState([]);
+    const [recent, setRecent] = useState([]);
+    const [binPage, setBinPage] = useState([]);
 
     useEffect(() => {
         if (rename && inputRef.current) {
@@ -343,7 +196,70 @@ export default function Sidebar({ user }) {
                     }
                 </CollapsibleTrigger>
                 <CollapsibleContent className="p-6 border-t">
+                    <div className="grid ml-6">
+                        {recent && recent.map((page, i) => (
+                            <div key={i}
+                                 className=
+                                     {`grid mt-1 rounded-md gap-2 hover:bg-primary/10 hover:border-primary ${
+                                         selectedItem === i ? "bg-primary/10 border-primary" : ""
+                                     }`}
+                                 onClick={event => handleClick(event, page, i)}
+                            >
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center ml-3">
+                                        {
+                                            rename && (i === renameId) ?
+                                                <input type="text" ref={inputRef} value={renameValue}
+                                                       onChange={handleRenameChange}
+                                                       onKeyDown={(e) => getInput(e, page, renameValue)}
+                                                       onBlur={() => {
+                                                           if (page.title !== renameValue) {
+                                                               updateTile(page, renameValue);
+                                                           }
+                                                           setRename(false);
+                                                       }}/> :
+                                                <h4 className="font-medium truncate">{page.title}</h4>
+                                        }
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="ghost" size="icon" className="text-muted-foreground">
+                                                    <CircleEllipsis className="w-5 h-5"/>
+                                                    <span className="sr-only">更多</span>
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                                <DropdownMenuItem>
+                                                    <button className="flex items-center">
+                                                        <StarIcon className="w-5 h-5 mr-2"/>
+                                                        收藏
+                                                    </button>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem>
+                                                    <button className="flex items-center" onClick={() => {
+                                                        setRename(true);
+                                                        setRenameId(i);
+                                                    }}>
+                                                        <PencilIcon className="w-5 h-5 mr-2"/>
+                                                        重命名
+                                                    </button>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem>
+                                                    <button className="flex items-center"
+                                                            onClick={() => handleDelete(page)}>
+                                                        <TrashIcon className="w-5 h-5 mr-2"/>
+                                                        删除
+                                                    </button>
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
 
+                    </div>
                 </CollapsibleContent>
             </Collapsible>
             <Collapsible className="border rounded-lg overflow-hidden " open={favOpen} onOpenChange={setFavOpen}>
@@ -362,12 +278,75 @@ export default function Sidebar({ user }) {
                         <h3 className="ml-3">收藏夹</h3>
                     </div>
                     {favOpen ?
-                        <ChevronDown className="w-5 h-5" /> :
+                        <ChevronDown className="w-5 h-5"/> :
                         <ChevronLeft className="w-5 h-5"/>
                     }
                 </CollapsibleTrigger>
                 <CollapsibleContent className="p-6 border-t">
+                    <div className="grid ml-6">
+                        {stars && stars.map((page, i) => (
+                            <div key={i}
+                                 className=
+                                     {`grid mt-1 rounded-md gap-2 hover:bg-primary/10 hover:border-primary ${
+                                         selectedItem === i ? "bg-primary/10 border-primary" : ""
+                                     }`}
+                                 onClick={event => handleClick(event, page, i)}
+                            >
+                                <div className="flex items-center justify-between">
+                                    <div className="flex items-center ml-3">
+                                        {
+                                            rename && (i === renameId) ?
+                                                <input type="text" ref={inputRef} value={renameValue}
+                                                       onChange={handleRenameChange}
+                                                       onKeyDown={(e) => getInput(e, page, renameValue)}
+                                                       onBlur={() => {
+                                                           if (page.title !== renameValue) {
+                                                               updateTile(page, renameValue);
+                                                           }
+                                                           setRename(false);
+                                                       }}/> :
+                                                <h4 className="font-medium truncate">{page.title}</h4>
+                                        }
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <DropdownMenu>
+                                            <DropdownMenuTrigger asChild>
+                                                <Button variant="ghost" size="icon" className="text-muted-foreground">
+                                                    <CircleEllipsis className="w-5 h-5"/>
+                                                    <span className="sr-only">更多</span>
+                                                </Button>
+                                            </DropdownMenuTrigger>
+                                            <DropdownMenuContent align="end">
+                                                <DropdownMenuItem>
+                                                    <button className="flex items-center">
+                                                        <StarIcon className="w-5 h-5 mr-2"/>
+                                                        收藏
+                                                    </button>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem>
+                                                    <button className="flex items-center" onClick={() => {
+                                                        setRename(true);
+                                                        setRenameId(i);
+                                                    }}>
+                                                        <PencilIcon className="w-5 h-5 mr-2"/>
+                                                        重命名
+                                                    </button>
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem>
+                                                    <button className="flex items-center"
+                                                            onClick={() => handleDelete(page)}>
+                                                        <TrashIcon className="w-5 h-5 mr-2"/>
+                                                        删除
+                                                    </button>
+                                                </DropdownMenuItem>
+                                            </DropdownMenuContent>
+                                        </DropdownMenu>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
 
+                    </div>
                 </CollapsibleContent>
             </Collapsible>
             <Collapsible className="border rounded-lg overflow-hidden" open={trashOpen} onOpenChange={setTrashOpen}>
@@ -387,7 +366,7 @@ export default function Sidebar({ user }) {
                         <h3 className="ml-3">回收站</h3>
                     </div>
                     {trashOpen ?
-                        <ChevronDown className="w-5 h-5" /> :
+                        <ChevronDown className="w-5 h-5"/> :
                         <ChevronLeft className="w-5 h-5"/>
                     }
                 </CollapsibleTrigger>
@@ -435,9 +414,9 @@ function TrashIcon(props) {
             strokeLinecap="round"
             strokeLinejoin="round"
         >
-            <path d="M3 6h18" />
-            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
-            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2" />
+            <path d="M3 6h18"/>
+            <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/>
+            <path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
         </svg>
     )
 }
@@ -456,8 +435,8 @@ function PencilIcon(props) {
             strokeLinecap="round"
             strokeLinejoin="round"
         >
-            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
-            <path d="m15 5 4 4" />
+            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+            <path d="m15 5 4 4"/>
         </svg>
     )
 }

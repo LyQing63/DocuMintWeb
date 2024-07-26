@@ -11,6 +11,22 @@
     {
       "source": "/user/(.*)",
       "destination": "http://47.116.168.31:8080/user/$1"
+    },
+    {
+      "source": "/star/(.*)",
+      "destination": "http://47.116.168.31:8080/star/$1"
+    },
+    {
+      "source": "/KnowledgeBase",
+      "destination": "https://fez7cag5adt5q0h5.aistudio-hub.baidu.com/KnowledgeBase"
+    },
+    {
+      "source": "/ask",
+      "destination": "https://fez7cag5adt5q0h5.aistudio-hub.baidu.com/ask"
+    },
+    {
+      "source": "/ocr",
+      "destination": "https://fez7cag5adt5q0h5.aistudio-hub.baidu.com/ocr"
     }
   ]
 }

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { AiService } from "@/api/services/API";
 import VoiceDrawer from '@/components/voiceDrawer';
+import {Textarea} from "@/components/tailwind/ui/textarea";
 
 const SearchBar = () => {
     const [question, setQuestion] = useState('');
@@ -28,24 +29,24 @@ const SearchBar = () => {
     return (
         <div>
             <form className="flex items-center max-w-lg mx-auto" onSubmit={handleSubmit}>
-                {/* <div className="bg-background rounded-lg border p-6 w-full max-w-2xl">
-                <div className="space-y-4">
-                    <div>
-                        <h2 className="text-2xl font-bold">Result</h2>
-                        <p className="text-muted-foreground">The output of your search or calculation will be displayed here.</p>
-                    </div>
-                    <Textarea
-                    // id={answer}
-                    placeholder="Your result will appear here..."
-                    className="w-full resize-none rounded-lg border border-input p-4 text-lg leading-relaxed shadow-sm transition-all focus:outline-none focus:ring-1 focus:ring-primary"
-                    // value={answer}
-                    rows={4}
-                    />
-                </div>
-            </div>
-            {/* <div className={`answer absolute w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-lg mt-2 p-4 transition-all duration-500 ease-in-out transform translate-y-0  ${answer ? 'show' : ''}`}>
-                <p id={answer}>{answer}</p>
-            </div> */}
+            {/*    <div className="bg-background rounded-lg border p-6 w-full max-w-2xl">*/}
+            {/*    <div className="space-y-4">*/}
+            {/*        <div>*/}
+            {/*            <h2 className="text-2xl font-bold">Result</h2>*/}
+            {/*            <p className="text-muted-foreground">The output of your search or calculation will be displayed here.</p>*/}
+            {/*        </div>*/}
+            {/*        <Textarea*/}
+            {/*        // id={answer}*/}
+            {/*        placeholder="Your result will appear here..."*/}
+            {/*        className="w-full resize-none rounded-lg border border-input p-4 text-lg leading-relaxed shadow-sm transition-all focus:outline-none focus:ring-1 focus:ring-primary"*/}
+            {/*        // value={answer}*/}
+            {/*        rows={4}*/}
+            {/*        />*/}
+            {/*    </div>*/}
+            {/*</div>*/}
+            {/*<div className={`answer absolute w-full bg-white border border-gray-300 text-gray-900 text-sm rounded-lg mt-2 p-4 transition-all duration-500 ease-in-out transform translate-y-0  ${answer ? 'show' : ''}`}>*/}
+            {/*    <p id={answer}>{answer}</p>*/}
+            {/*</div>*/}
                 <label htmlFor="voice-search" className="sr-only">Search</label>
                 <div className="relative w-full">
                     <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">

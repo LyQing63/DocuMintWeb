@@ -444,7 +444,7 @@ export class AiService {
    * @throws ApiError
    */
   public static AskKnowledgeBase(question: AskKnowledgeBaseParams) {
-    return aiRequest.post("/ai/ask", question, {
+    return aiRequest.post("/KnowledgeBase", question, {
       headers: {
         Authorization: "Bearer " + process.env.TOKEN,
       },

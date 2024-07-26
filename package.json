@@ -69,6 +69,7 @@
     "sass": "^1.77.8",
     "scss": "^0.2.4",
     "simple-mind-map": "^0.10.2-fix.1",
+    "socket.io-client": "^4.7.5",
     "sonner": "^0.7.0",
     "styled-components": "^6.1.11",
     "tailwind-merge": "^2.3.0",

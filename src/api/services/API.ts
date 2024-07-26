@@ -478,7 +478,7 @@ export class AiService {
   public static OCRImage(file: File) {
     return aiRequest.post(
       "/ocr",
-      { data: file },
+      file,
       {
         headers: {
           Authorization: "Bearer " + process.env.TOKEN,

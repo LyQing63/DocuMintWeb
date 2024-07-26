@@ -13,26 +13,26 @@ const SearchBar = ({ setAnswer }) => {
     const audioChunks = useRef([]);
     const sendInterval = useRef(null);
 
-    // useEffect(() => {
-    //     socket.current = io('');
-    //
-    //     socket.current.on('connect', () => {
-    //         console.log('Connected to server');
-    //     });
-    //
-    //     socket.current.on('recognition_result', data => {
-    //         setQuestion(prevQuestion => prevQuestion + data.result);
-    //     });
-    //
-    //     socket.current.on('disconnect', () => {
-    //         console.log('Disconnected from server');
-    //     });
-    //
-    //     return () => {
-    //         socket.current.disconnect();
-    //         clearInterval(sendInterval.current);
-    //     };
-    // }, []);
+    useEffect(() => {
+        socket.current = io('');
+
+        socket.current.on('connect', () => {
+            console.log('Connected to server');
+        });
+
+        socket.current.on('recognition_result', data => {
+            setQuestion(prevQuestion => prevQuestion + data.result);
+        });
+
+        socket.current.on('disconnect', () => {
+            console.log('Disconnected from server');
+        });
+
+        return () => {
+            socket.current.disconnect();
+            clearInterval(sendInterval.current);
+        };
+    }, []);
 
     useEffect(() => {
         const handleGlobalClick = () => {
@@ -66,7 +66,7 @@ const SearchBar = ({ setAnswer }) => {
             formData.append('file', audioFile);
 
             try {
-                const response = await axios.post('http://localhost:5000/recognize', formData, {
+                const response = await axios.post('/recognize', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }

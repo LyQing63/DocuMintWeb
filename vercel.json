@@ -27,6 +27,10 @@
     {
       "source": "/generate",
       "destination": "http://47.116.168.31:8000/generate"
+    },
+    {
+      "source": "/recognize",
+      "destination": "http://47.116.168.31:8000/recognize"
     }
   ]
 }

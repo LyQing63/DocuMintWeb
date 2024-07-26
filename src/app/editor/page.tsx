@@ -98,11 +98,10 @@ export default function Page() {
                 <div className={`transition-all duration-300 ${isSidebarOpen ? 'mr-64' : 'mr-0'} flex-grow`}>
                     <EditorDashboard user={user} navCollapsedSize={4}/>
                 </div>
-                <VoiceDrawer/>
             </PageDataProvider>
             <div
                 className={`fixed top-0 right-0 h-full bg-gray-800 shadow-lg border border-transparent transition-transform duration-300 ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'} w-80`}>
-                <iframe src="https://dd8a-124-160-153-111.ngrok-free.app/" className="w-full h-full"></iframe>
+                <iframe src="https://d680-124-160-153-111.ngrok-free.app " className="w-full h-full"></iframe>
             </div>
             <button
                 onClick={toggleSidebar}

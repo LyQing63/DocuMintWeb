@@ -22,7 +22,7 @@
     },
     {
       "source": "/ocr",
-      "destination": "http://47.116.168.31:8080/ocr"
+      "destination": "http://47.116.168.31:8000/ocr"
     },
     {
       "source": "/generate",

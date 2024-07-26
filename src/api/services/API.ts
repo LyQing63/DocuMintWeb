@@ -5,8 +5,8 @@ import { OpenAPI } from "@/api";
 // const url = 'http://47.116.168.31:8080';
 const url = "";
 // const aiUrl = "http://61.139.65.143:12705";
-// const aiUrl = "https://fez7cag5adt5q0h5.aistudio-hub.baidu.com";
-const aiUrl = ""
+const aiUrl = "https://fez7cag5adt5q0h5.aistudio-hub.baidu.com";
+// const aiUrl = ""
 export const API = { TOKEN: "" };
 
 const headers = {

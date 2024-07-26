@@ -15,6 +15,18 @@
     {
       "source": "/star/(.*)",
       "destination": "http://47.116.168.31:8080/star/$1"
+    },
+    {
+      "source": "/ask/(.*)",
+      "destination": "http://47.116.168.31:8000/ask/$1"
+    },
+    {
+      "source": "/ocr/(.*)",
+      "destination": "http://47.116.168.31:8080/ocr/$1"
+    },
+    {
+      "source": "/KnowledgeBase/(.*)",
+      "destination": "http://47.116.168.31:8000/KnowledgeBase/$1"
     }
   ]
 }
